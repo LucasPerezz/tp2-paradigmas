@@ -1,14 +1,14 @@
-import java.util.Scanner;
-import java.util.InputMismatchException;
+import java.util.*;
 
 public class MenuRecital {
     private Scanner scanner;
     private boolean enCurso;
-    //private Recital recital;
+    private Recital recital;
 
-    public MenuRecital() {
+    public MenuRecital(Recital recital) {
         this.scanner = new Scanner(System.in);
         this.enCurso = true;
+        this.recital = recital;
     }
 
     public void iniciar() {
@@ -38,7 +38,7 @@ public class MenuRecital {
         System.out.println("║ 6. Listar artistas contratados                         ║");
         System.out.println("║ 7. Listar canciones y su estado                        ║");
         System.out.println("║ 8. Consultas Prolog                                    ║");
-        System.out.println("║ 9. Salir                                               ║");
+        System.out.println("║ 0. Salir                                               ║");
         System.out.println("╚════════════════════════════════════════════════════════╝");
         System.out.print("\nSeleccione una opción: ");
     }
@@ -63,7 +63,7 @@ public class MenuRecital {
 
         // Mostrar canciones disponibles primero
         System.out.println("Canciones disponibles en el recital:");
-        // TODO: metodo de recital que liste todas las canciones
+        // TODO: metodo que liste todas las canciones
         // recital.listarCancionesDisponibles();
 
         System.out.print("\nIngrese el nombre de la canción: ");
@@ -193,9 +193,9 @@ public class MenuRecital {
 
     // ========== OPCIÓN 5 ==========
     private void entrenarArtista() {
-        System.out.println("═══════════════════════════════════════════════════════");
-        System.out.println("  ENTRENAR ARTISTA");
-        System.out.println("═══════════════════════════════════════════════════════\n");
+        System.out.println("╔════════════════════════════════════════════════════════╗");
+        System.out.println("║                  ENTRENAR ARTISTA                      ║");
+        System.out.println("╚════════════════════════════════════════════════════════╝\n");
 
         System.out.println("Aviso:");
         System.out.println("No se puede entrenar artistas ya contratados");
@@ -203,30 +203,71 @@ public class MenuRecital {
         System.out.println("Cada rol adicional incrementa el costo en 50%\n");
 
         System.out.println("Artistas disponibles para entrenar:");
-        // TODO: Listar artistas disponibles
-        // Nombre, Roles, Precio actual
 
+        // == Listamos artistas disponibles
+        List<ArtistaCandidato> listaArtistas = new ArrayList<ArtistaCandidato>();
+        int cantidad = 1;
+        for(Artista a : this.recital.getArtistas()){
+            if(a instanceof ArtistaCandidato) {
+                listaArtistas.add((ArtistaCandidato) a);
+                System.out.println(cantidad + ". " + a.getNombre());
+                cantidad++;
+            }
+        }
+        if(listaArtistas.isEmpty()) {
+            System.out.println("No hay artistas candidatos disponibles para entrenar!");
+            return;
+        }
+
+        // == Pedimos artista
         System.out.print("\nSeleccione el artista: ");
-        String nombreArtista = scanner.nextLine().trim();
+        int artistaSeleccion = -1;
 
+        do {
+            artistaSeleccion = leerOpcion();
 
-        // TODO: Validar selección
-        System.out.println("\nArtista seleccionado: nombre");
-        System.out.println("Roles actuales: Guitarrista");
-        System.out.println("Costo actual: $5,000");
+            if(artistaSeleccion <= 0|| artistaSeleccion > listaArtistas.size()) {
+                System.out.println("Seleccione una opcion valida.");
+                System.out.print("\nSeleccione el artista: ");
+            }
+        } while(artistaSeleccion <= 0 ||  artistaSeleccion > listaArtistas.size());
+
+        System.out.println("Artista seleccionado:");
+        ArtistaCandidato artistaSeleccionado = listaArtistas.get(artistaSeleccion - 1);
+        System.out.println(artistaSeleccionado);
+
+        // == Listamos roles disponibles
+        List<Rol> roles = new ArrayList<>(Arrays.asList(Rol.class.getEnumConstants()));
+        roles.removeAll(artistaSeleccionado.getRoles());
+        roles.removeAll(artistaSeleccionado.getRolesEntrenados());
 
         System.out.println("\nRoles disponibles para aprender:");
-        System.out.println("  1. Vocalista");
-        System.out.println("  2. Bajista");
-        System.out.println("  3. Teclista");
+        for (int i = 0; i<roles.size(); i++) {
+            System.out.println((i+1) + ". " + roles.get(i).toString());
+        }
 
+        if (roles.isEmpty()) {
+            System.out.println("No hay roles disponibles para aprender!");
+            return;
+        }
+
+        // == Pedimos rol
         System.out.print("\nSeleccione rol a aprender: ");
-        int rolSeleccion = leerOpcion();
+        int rolSeleccion = -1;
+        do {
+            rolSeleccion = leerOpcion();
+            if (rolSeleccion > roles.size() || rolSeleccion <= 0) {
+                System.out.println("Opcion no valida.");
+                System.out.print("\nSeleccione rol a aprender: ");
+            }
 
-        // TODO: Validar y aplicar entrenamiento
+        } while(rolSeleccion > roles.size() || rolSeleccion <= 0);
 
-        // Ejemplo
-        double costoAnterior = 5000;
+        Rol rolSeleccionado = roles.get(rolSeleccion - 1);
+        System.out.println("Rol seleccionado: " + rolSeleccionado.toString());
+
+        // == Aviso de incremento de costo
+        double costoAnterior = artistaSeleccionado.getCostoContratacion();
         double nuevoCosto = costoAnterior * 1.5;
 
         System.out.println("\nCÁLCULO DE NUEVO COSTO:");
@@ -237,10 +278,11 @@ public class MenuRecital {
         System.out.print("\n¿Confirmar entrenamiento? (S/N): ");
         String confirmacion = scanner.nextLine().trim().toUpperCase();
 
+        // == Entrenamiento
         if (confirmacion.equals("S")) {
-            // TODO: Aplicar entrenamiento
+            artistaSeleccionado.entrenarArtista(rolSeleccionado);
             System.out.println("\nEntrenamiento completado exitosamente.");
-            System.out.println("nombreArtista ahora puede desempeñar el rol de nuevoRol.");
+            System.out.println(artistaSeleccionado.getNombre() + " ahora puede desempeñar el rol " + rolSeleccionado.toString());
         } else {
             System.out.println("\nEntrenamiento cancelado.");
         }
@@ -248,51 +290,36 @@ public class MenuRecital {
 
     // ========== OPCIÓN 6 ==========
     private void listarArtistasContratados() {
-        System.out.println("═══════════════════════════════════════════════════════");
-        System.out.println("  ARTISTAS CONTRATADOS");
-        System.out.println("═══════════════════════════════════════════════════════\n");
+        System.out.println("╔════════════════════════════════════════════════════════╗");
+        System.out.println("║                  ARTISTAS CONTRATADOS                  ║");
+        System.out.println("╚════════════════════════════════════════════════════════╝\n");
 
-        // TODO: Obtener lista de artistas contratados;
+        for( Artista a: recital.getArtistas()) {
+            if(a instanceof ArtistaBase) {
+                System.out.println(a);
+            }
+        }
 
-//        System.out.println("┌──────────────────────────────────────────────────────┐");
-//        System.out.println("│ Juan Pérez                                           │");
-//        System.out.println("├──────────────────────────────────────────────────────┤");
-//        System.out.println("│ Roles: Guitarrista                                   │");
-//        System.out.println("│ Banda: Los Rockeros                                  │");
-//        System.out.println("│ Canciones asignadas: Canción A, Canción C            │");
-//        System.out.println("│ Costo: $8,000                                        │");
-//        System.out.println("└──────────────────────────────────────────────────────┘\n");
-
-        System.out.println("===== Nombre =====");
-        System.out.println("Roles:");
-        System.out.println("- Rol 1");
-        System.out.println("- Rol 2 (Entrenado)");
-        System.out.println("Canciones:");
-        System.out.println("- Cancion 1");
-        System.out.println(">Costo total:");
-
-        System.out.println("\nCosto total de artistas contratados: $45,000");
     }
 
     private void listarCanciones() {
-        System.out.println("═══════════════════════════════════════════════════════");
-        System.out.println("  ESTADO DE CANCIONES");
-        System.out.println("═══════════════════════════════════════════════════════\n");
+        System.out.println("╔════════════════════════════════════════════════════════╗");
+        System.out.println("║                  ESTADO DE CANCIONES                   ║");
+        System.out.println("╚════════════════════════════════════════════════════════╝\n");
 
-        // TODO: Obtener lista de canciones
-        System.out.println("Total de canciones en el recital: 7\n");
+        int completas = 0;
+        int costoTotal = 0;
 
-        System.out.println("===== Nombre =====");
-        System.out.println("Estado: Cubierta/No Cubierta");
-        System.out.println("- Rol 1 -> Artista");
-        System.out.println("- Rol 2 -> No cubierto");
-        System.out.println(">Costo total:");
+        for (Cancion c : this.recital.getCancionesLineUp()) {
+            System.out.println(c);
 
-        //
-        System.out.println("\nCanciones completas: 3/7");
-        System.out.println("Canciones incompletas: 4/7");
-        System.out.println("Costo total: $45,000");
+            if (c.estaCubierta()) completas++;
+            costoTotal += c.getCostoTotal();
 
+        }
+
+        System.out.println("Canciones completas: " + completas + "/" + this.recital.getCancionesLineUp().size());
+        System.out.println("Costo total de las canciones: $" + costoTotal);
     }
 
     // ========== OPCIÓN 8 ==========
