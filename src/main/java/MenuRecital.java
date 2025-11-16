@@ -78,7 +78,7 @@ public class MenuRecital {
         System.out.println("\nROLES FALTANTES:");
         System.out.println("Canción: " + nombreCancion);
         System.out.println("\nRoles requeridos:");
-        // TODO: Metodo de cancion que liste los roles que tiene, y a apartir de sus artistas, muestre los que faltan
+        // TODO: Metodo de cancion que liste los roles que tiene, y a a partir de sus artistas, muestre los que faltan
         // Ejemplo
         System.out.println("===== Guitarrista =====");
         System.out.println("Requeridos: 2");
@@ -205,7 +205,7 @@ public class MenuRecital {
         System.out.println("Artistas disponibles para entrenar:");
 
         // == Listamos artistas disponibles
-        List<ArtistaCandidato> listaArtistas = new ArrayList<ArtistaCandidato>();
+        List<ArtistaCandidato> listaArtistas = new ArrayList<>();
         int cantidad = 1;
         for(Artista a : this.recital.getArtistas()){
             if(a instanceof ArtistaCandidato) {
@@ -221,12 +221,12 @@ public class MenuRecital {
 
         // == Pedimos artista
         System.out.print("\nSeleccione el artista: ");
-        int artistaSeleccion = -1;
+        int artistaSeleccion;
 
         do {
             artistaSeleccion = leerOpcion();
 
-            if(artistaSeleccion <= 0|| artistaSeleccion > listaArtistas.size()) {
+            if(artistaSeleccion <= 0 || artistaSeleccion > listaArtistas.size()) {
                 System.out.println("Seleccione una opcion valida.");
                 System.out.print("\nSeleccione el artista: ");
             }
@@ -253,7 +253,7 @@ public class MenuRecital {
 
         // == Pedimos rol
         System.out.print("\nSeleccione rol a aprender: ");
-        int rolSeleccion = -1;
+        int rolSeleccion;
         do {
             rolSeleccion = leerOpcion();
             if (rolSeleccion > roles.size() || rolSeleccion <= 0) {
@@ -282,7 +282,7 @@ public class MenuRecital {
         if (confirmacion.equals("S")) {
             artistaSeleccionado.entrenarArtista(rolSeleccionado);
             System.out.println("\nEntrenamiento completado exitosamente.");
-            System.out.println(artistaSeleccionado.getNombre() + " ahora puede desempeñar el rol " + rolSeleccionado.toString());
+            System.out.println(artistaSeleccionado.getNombre() + " ahora puede desempeñar el rol " + rolSeleccionado);
         } else {
             System.out.println("\nEntrenamiento cancelado.");
         }

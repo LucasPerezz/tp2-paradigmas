@@ -51,7 +51,8 @@ public class Cancion {
         }
 
         // Costo total
-        int total = 0; for (Artista a : artistasAsignados) {
+        double total = 0;
+        for (Artista a : artistasAsignados) {
             if (a != null)
                 total += a.getCostoPorCancion();
         }
@@ -88,8 +89,8 @@ public class Cancion {
         return !artistasAsignados.contains(null) && artistasAsignados.size() == rolesRequeridos.size();
     }
 
-    public int getCostoTotal() {
-        int total = 0;
+    public double getCostoTotal() {
+        double total = 0;
         for (Artista a : artistasAsignados) {
             if (a != null) total += a.getCostoPorCancion();
         }
