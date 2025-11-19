@@ -5,6 +5,10 @@ public class ArtistaCandidato extends Artista{
     private Double costoContratacion;
     private List<Rol> rolesEntrenados;
 
+    public ArtistaCandidato() {
+
+    }
+
     public ArtistaCandidato(String nombre, Double costoPorCancion, Double costoContratacion )
     {
         super(nombre, costoPorCancion);

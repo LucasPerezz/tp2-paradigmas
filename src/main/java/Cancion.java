@@ -1,33 +1,24 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+
+@JsonIgnoreProperties
 public class Cancion {
     private String nombre;
     private List<Rol> rolesRequeridos;
-    private List<Artista> artistasAsignados;
+    private List<Artista> artistasAsignados;  // Índice paralelo a rolesRequeridos
+    private List<AsignacionArtista> asignaciones;
     // private List<HashMap<Rol, Artista>>??
+
+    public Cancion() {
+    }
 
     public Cancion(String nombre, List<Rol> rolesRequeridos) {
         this.nombre = nombre;
         this.rolesRequeridos = rolesRequeridos;
-        this.artistasAsignados = new ArrayList<>(Collections.nCopies(rolesRequeridos.size(), null));
-        System.out.println(rolesRequeridos.size());
-    }
-
-    public Boolean asignarArtista(Rol rol, Artista artista) {
-        if(this.artistasAsignados.contains(artista)) {
-            return false;
-        }
-
-        // TODO: Checkear el maximo de canciones del artista
-        if(!this.rolesRequeridos.contains(rol)) {
-            return false;
-        }
-
-        this.artistasAsignados.set(this.rolesRequeridos.indexOf(rol), artista);
-
-        return true;
+        this.asignaciones = new ArrayList<>(Collections.nCopies(rolesRequeridos.size(), null));
     }
 
     @Override
@@ -52,7 +43,7 @@ public class Cancion {
 
         // Costo total
         double total = 0;
-        for (Artista a : artistasAsignados) {
+        for (Artista a : this.getArtistasAsignados()) {
             if (a != null)
                 total += a.getCostoPorCancion();
         }
@@ -86,16 +77,28 @@ public class Cancion {
 
 
     public boolean estaCubierta() {
-        return !artistasAsignados.contains(null) && artistasAsignados.size() == rolesRequeridos.size();
+        return !asignaciones.contains(null) && asignaciones.size() == rolesRequeridos.size();
     }
 
     public double getCostoTotal() {
         double total = 0;
-        for (Artista a : artistasAsignados) {
+        for (Artista a : this.getArtistasAsignados()) {
             if (a != null) total += a.getCostoPorCancion();
         }
         return total;
     }
 
+    public String getNombre() {
+        return nombre;
+    }
 
+    public List<Rol> getRolesRequeridos() { return rolesRequeridos; }
+    public List<Artista> getArtistasAsignados() { return artistasAsignados; }
+    public void setArtistasAsignados(List<Artista> artistasAsignados) {
+        this.artistasAsignados = artistasAsignados;
+    }
+
+    public List<AsignacionArtista> getAsignaciones() {
+        return asignaciones;
+    }
 }

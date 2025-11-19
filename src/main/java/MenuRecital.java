@@ -308,7 +308,7 @@ public class MenuRecital {
         System.out.println("╚════════════════════════════════════════════════════════╝\n");
 
         int completas = 0;
-        int costoTotal = 0;
+        double costoTotal = 0;
 
         for (Cancion c : this.recital.getCancionesLineUp()) {
             System.out.println(c);

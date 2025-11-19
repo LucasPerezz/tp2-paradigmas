@@ -1,6 +1,6 @@
 public enum Rol {
     VOCALISTA,
-    GUITARRARISTA,
+    GUITARRISTA,
     BATERISTA,
     BAJISTA,
     PIANISTA

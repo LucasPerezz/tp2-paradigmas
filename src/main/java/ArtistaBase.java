@@ -9,6 +9,8 @@ public class ArtistaBase extends Artista{
         this.cancionesMaximas = cancionesMaximas;
     }
 
+    public ArtistaBase() {}
+
     @Override
     public String toString() {
 
