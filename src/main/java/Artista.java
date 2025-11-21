@@ -24,6 +24,7 @@ public abstract class Artista {
     private List<Banda> bandas;
     private List<Rol> roles;
     private double costoPorCancion;
+    private int maximoCanciones;
 
     public Artista(String nombre, double costoPorCancion) {
         this.nombre = nombre;
