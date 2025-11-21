@@ -22,7 +22,7 @@ public class Main {
 
 
 
-        Recital recital = new Recital(artistas, canciones);
+        Recital recital = new Recital(artistas, canciones, null);
         MenuRecital menu = new MenuRecital(recital);
 
         menu.iniciar();

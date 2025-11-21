@@ -29,23 +29,30 @@ public class Recital {
                 .count();
     }
 
-
     public void asignacionAutomaticaDeCanciones(){
         for (Cancion cancion : cancionesLineUp) {
             for (Rol rol : cancion.getRolesRequeridos()){
-                Artista artista = obtenerArtistaConRol(artistas, rol, cancion);
-                if (artista != null) {
-                    artista.asignarCancion(cancion);
+                Artista artista = obtenerArtistaConRol(rol, cancion);
+                if(artista == null){
+                    continue;
                 }
+
+                if (!cancionesPorArtista.containsKey(artista)){
+                    List<Cancion> cancionesAsiganadas = new ArrayList<>();
+                    cancionesAsiganadas.add(cancion);
+                    cancionesPorArtista.put(artista, cancionesAsiganadas);
+                }
+
+                cancionesPorArtista.get(artista).add(cancion);
             }
         }
     }
 
-    private Artista obtenerArtistaConRol(final List<Artista> artistas, final Rol rol, final Cancion cancion) {
+    private Artista obtenerArtistaConRol(final Rol rol, final Cancion cancion) {
         return artistas.stream()
-                .filter(artista -> !artista.llegoAlMaximo())
-                .filter(artista -> !artista.getCancioneAsignadas().contains(cancion))
                 .filter(artista -> artista.tieneRol(rol))
+                .filter(artista -> !artista.llegoAlMaximo(cancionesPorArtista.getOrDefault(artista, List.of())))
+                .filter(artista -> !cancionesPorArtista.getOrDefault(artista, List.of()).contains(cancion))
                 .findFirst()
                 .orElse(null);
     }
@@ -54,7 +61,7 @@ public class Recital {
         List<Artista> artistasSobrantes = new ArrayList<>();
 
         for(Artista artista : artistas){
-            if (!artista.llegoAlMaximo()){
+            if (!artista.llegoAlMaximo(cancionesPorArtista.getOrDefault(artista, List.of()))){
                 artistasSobrantes.add(artista);
             }
         }
