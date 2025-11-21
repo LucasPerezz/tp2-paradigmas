@@ -24,6 +24,8 @@ public abstract class Artista {
     private List<Banda> bandas;
     private List<Rol> roles;
     private double costoPorCancion;
+    //TODO: Borrar cuando tengamos la clase ArtistaContratado con esta propiedad
+    private int maximoCancionesPorRecital;
 
     public Artista(String nombre, double costoPorCancion) {
         this.nombre = nombre;
@@ -46,6 +48,15 @@ public abstract class Artista {
         }
         this.roles.add(rol);
         return true;
+    }
+
+    public boolean tieneRol(final Rol rol) {
+        return roles.contains(rol);
+    }
+
+    public boolean llegoAlMaximo(final List<Cancion> cancionesAsignadas){
+        //TODO: Cuando tengasmos la clase ArtistaContratado, retornar falso en el abstracto, y mover esta logica hacia ArtistaContratado
+        return cancionesAsignadas.size() == maximoCancionesPorRecital;
     }
 
     public void setCostoPorCancion(double costoPorCancion) {
