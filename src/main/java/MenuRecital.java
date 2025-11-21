@@ -57,43 +57,33 @@ public class MenuRecital {
 
     // ========== OPCIÓN 1 ==========
     private void consultarRolesFaltantesCancion() {
-        System.out.println("═══════════════════════════════════════════════════════");
-        System.out.println("  ROLES FALTANTES PARA CANCIÓN ESPECÍFICA");
-        System.out.println("═══════════════════════════════════════════════════════\n");
-
-        // Mostrar canciones disponibles primero
+        System.out.println("╔════════════════════════════════════════════════════════╗");
+        System.out.println("║         ROLES FALTANTES PARA CANCION ESPECIFICA        ║");
+        System.out.println("╚════════════════════════════════════════════════════════╝\n");
         System.out.println("Canciones disponibles en el recital:");
-        // TODO: metodo que liste todas las canciones
-        // recital.listarCancionesDisponibles();
 
-        System.out.print("\nIngrese el nombre de la canción: ");
-        String nombreCancion = scanner.nextLine().trim();
+        List<Cancion> canciones = this.recital.getCancionesLineUp();
 
-        if (nombreCancion.isEmpty()) {
-            System.out.println("Error: Debe ingresar un nombre de canción.");
-            return;
+        for (int i = 0; i < canciones.size(); i++) {
+            System.out.println((i+1) + ". " + canciones.get(i).getNombre());
         }
 
-        // TODO: Implementar lógica
-        System.out.println("\nROLES FALTANTES:");
-        System.out.println("Canción: " + nombreCancion);
-        System.out.println("\nRoles requeridos:");
-        // TODO: Metodo de cancion que liste los roles que tiene, y a a partir de sus artistas, muestre los que faltan
-        // Ejemplo
-        System.out.println("===== Guitarrista =====");
-        System.out.println("Requeridos: 2");
-        System.out.println("Contratados: 1");
-        System.out.println("\n> Faltantes: 1\n");
+        System.out.print("\nIngrese el nombre de la canción: ");
+        int cancionOpcion;
 
-        System.out.println("===== Vocalista =====");
-        System.out.println("Requeridos: 1");
-        System.out.println("Contratados: 1");
-        System.out.println("\n> Faltantes: 0\n");
+        do {
+            cancionOpcion = leerOpcion();
 
-        System.out.println("===== Baterista =====");
-        System.out.println("Requeridos: 1");
-        System.out.println("Contratados: 0");
-        System.out.println("\n> Faltantes: 1\n");
+            if(cancionOpcion <= 0 || cancionOpcion > canciones.size()) {
+                System.out.println("Seleccione una opcion valida.");
+                System.out.print("\nSeleccione la cancion: ");
+            }
+        } while(cancionOpcion <= 0 ||  cancionOpcion > canciones.size());
+
+        Cancion cancion = canciones.get(cancionOpcion - 1);
+        System.out.println("\nROLES FALTANTES PARA " + cancion.getNombre() + ": ");
+        cancion.getRolesFaltantes();
+
     }
 
     // ========== OPCIÓN 2 ==========

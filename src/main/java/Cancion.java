@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -100,5 +101,24 @@ public class Cancion {
 
     public List<AsignacionArtista> getAsignaciones() {
         return asignaciones;
+    }
+
+    public void getRolesFaltantes() {
+        HashMap<Rol, Integer> rolesCubiertos = new HashMap<>();
+
+        for(int i = 0; i < rolesRequeridos.size(); i++) {
+            Rol rol = rolesRequeridos.get(i);
+            int cantidad = (this.artistasAsignados.get(i) == null) ? 0 : 1;
+            rolesCubiertos.put(rol, rolesCubiertos.getOrDefault(rol, 0) + cantidad);
+
+        }
+        for (Rol rol: rolesCubiertos.keySet()) {
+            int ocurrencias = Collections.frequency(rolesRequeridos, rol);
+            int totales = rolesCubiertos.get(rol);
+            System.out.println("═════════════ " + rol + " ═════════════");
+            System.out.println("Necesitados: " + ocurrencias);
+            System.out.println("Cubiertos: " + totales);
+            System.out.println("> Faltantes: " + (ocurrencias - totales));
+        }
     }
 }
