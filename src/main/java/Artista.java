@@ -25,6 +25,7 @@ public abstract class Artista {
     private List<Rol> roles;
     private double costoPorCancion;
     private int maximoCanciones;
+    private List<Cancion> cancioneAsignadas;
 
     public Artista(String nombre, double costoPorCancion) {
         this.nombre = nombre;
@@ -49,6 +50,22 @@ public abstract class Artista {
         return true;
     }
 
+    public boolean tieneRol(final Rol rol) {
+        return roles.contains(rol);
+    }
+
+    public boolean llegoAlMaximo(){
+        return cancioneAsignadas.size() == maximoCanciones;
+    }
+
+
+    public void asignarCancion(final Cancion cancion) {
+        if (llegoAlMaximo()) {
+            throw  new RuntimeException("Llego al maximo de canciones");
+        }
+
+        this.cancioneAsignadas.add(cancion);
+    }
     public void setCostoPorCancion(double costoPorCancion) {
         this.costoPorCancion = costoPorCancion;
     }
