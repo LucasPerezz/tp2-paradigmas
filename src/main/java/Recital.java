@@ -19,6 +19,18 @@ public class Recital {
     }
     // eliminar artista
 
+    public void asignacionAutomaticaDeCanciones() {
+        for (Cancion cancion : cancionesLineUp) {
+            for (Rol rol : cancion.getRolesRequeridos()) {
+                Artista artista = obtenerArtistaConRol(rol, cancion);
+                if (artista == null) {
+                    continue;
+                }
+                relacionArtistaCancion.add(new RelacionArtistaCancion(artista, cancion, rol));
+            }
+        }
+    }
+
     public int rolesFaltantes(final Cancion cancion) {
         final List<Artista> artistasDisponibles = artistaPuedenTocarMas();
 
@@ -30,18 +42,6 @@ public class Recital {
         return (int) cancion.getRolesRequeridos().stream()
                 .filter(rolRequerido -> !roles.contains(rolRequerido))
                 .count();
-    }
-
-    public void asignacionAutomaticaDeCanciones() {
-        for (Cancion cancion : cancionesLineUp) {
-            for (Rol rol : cancion.getRolesRequeridos()) {
-                Artista artista = obtenerArtistaConRol(rol, cancion);
-                if (artista == null) {
-                    continue;
-                }
-                relacionArtistaCancion.add(new RelacionArtistaCancion(artista, cancion, rol));
-            }
-        }
     }
 
     private Artista obtenerArtistaConRol(final Rol rol, final Cancion cancion) {
