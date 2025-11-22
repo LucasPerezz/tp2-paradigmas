@@ -1,9 +1,10 @@
-import lombok.AllArgsConstructor;
 
 import java.util.List;
 
-@AllArgsConstructor
 public class ArtistaCandidato extends Artista{
+    public ArtistaCandidato(final String nombre,List<Banda> bandas, List<Rol> roles, double costoPorCancion, int maximoCancionesPorRecital) {
+        super(nombre, bandas, roles, costoPorCancion, maximoCancionesPorRecital);
+    }
 
     public boolean llegoAlMaximo(final List<Cancion> cancionesAsignadas){
         return cancionesAsignadas.size() != maximoCancionesPorRecital;

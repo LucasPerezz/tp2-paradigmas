@@ -3,10 +3,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@AllArgsConstructor
 @Getter
 public class Recital {
     private final List<Artista> artistas;
@@ -14,6 +14,11 @@ public class Recital {
     private final Map<Artista, List<Cancion>> cancionesPorArtista;
     // TODO: Calcular descuentos por compartir bandas (estaba en el constructor)
 
+    public  Recital(final List<Artista> artistas, final List<Cancion> cancionesLineUp) {
+        this.artistas = artistas;
+        this.cancionesLineUp = cancionesLineUp;
+        cancionesPorArtista = new HashMap<>();
+    }
     // eliminar artista
 
     public int rolesFaltantes(final Cancion cancion) {
@@ -39,11 +44,13 @@ public class Recital {
 
                 if (!cancionesPorArtista.containsKey(artista)){
                     List<Cancion> cancionesAsiganadas = new ArrayList<>();
-                    cancionesAsiganadas.add(cancion);
                     cancionesPorArtista.put(artista, cancionesAsiganadas);
                 }
 
-                cancionesPorArtista.get(artista).add(cancion);
+                List<Cancion> cancionesAsignadas = cancionesPorArtista.get(artista);
+                if (!cancionesAsignadas.contains(cancion)) {
+                    cancionesAsignadas.add(cancion);
+                }
             }
         }
     }
@@ -61,7 +68,7 @@ public class Recital {
         List<Artista> artistasSobrantes = new ArrayList<>();
 
         for(Artista artista : artistas){
-            if (artista.llegoAlMaximo(cancionesPorArtista.getOrDefault(artista, List.of()))){
+            if (!artista.llegoAlMaximo(cancionesPorArtista.getOrDefault(artista, List.of()))){
                 artistasSobrantes.add(artista);
             }
         }

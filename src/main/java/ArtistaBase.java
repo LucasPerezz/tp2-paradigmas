@@ -5,10 +5,13 @@ import java.util.List;
 
 @AllArgsConstructor
 public class ArtistaBase extends Artista{
-    private int cancionesMaximas;
+
+    public ArtistaBase(final String nombre,List<Banda> bandas, List<Rol> roles, double costoPorCancion, int maximoCancionesPorRecital) {
+        super(nombre, bandas, roles, costoPorCancion, maximoCancionesPorRecital);
+    }
 
     public boolean llegoAlMaximo(final List<Cancion> cancionesAsignadas){
-        return cancionesAsignadas.size() != maximoCancionesPorRecital;
+        return cancionesAsignadas.size() == maximoCancionesPorRecital;
     }
   /*  public ArtistaBase(String nombre, double costoPorCancion, int cancionesMaximas)
     {
