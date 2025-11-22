@@ -73,12 +73,13 @@ public class Recital {
 
         for (ArtistaCandidato artista : artistasConRol) {
             double costo = artista.calcularCosto(artistaBases);
-            if (costo < costoMasBarato) {
+            if (costo < costoMasBarato || artistaMasBarato == null) {
                 artistaMasBarato = artista;
                 costoMasBarato = costo;
             }
         }
 
+       this.artistas.add(artistaMasBarato);
         relacionArtistaCancion.add(new RelacionArtistaCancion(artistaMasBarato, cancion, rol));
     }
 

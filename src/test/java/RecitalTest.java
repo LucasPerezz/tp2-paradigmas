@@ -3,6 +3,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 
@@ -19,7 +20,7 @@ public class RecitalTest {
         cancion = new Cancion("Crimen", List.of(Rol.VOCALISTA, Rol.GUITARRISTA, Rol.PIANISTA));
 
         pepe1 = new ArtistaBase("Pepe1", List.of(), List.of(Rol.BAJISTA),10.0, 3);
-        pepe2 = new ArtistaBase("Pepe2", List.of(), List.of(Rol.VOCALISTA),5.0, 1);
+        pepe2 = new ArtistaBase("Pepe2", List.of(Banda.GUNS), List.of(Rol.VOCALISTA),5.0, 1);
         pepe3 = new ArtistaBase("Pepe3", List.of(), List.of(Rol.GUITARRISTA),10.0, 3);
         
         artistas.add(pepe1);
@@ -56,5 +57,22 @@ public class RecitalTest {
     public void rolesFaltantesRecitalTest() {
         final int rolesFaltantes = recital.rolesFaltantesRecital();
         assertEquals(1, rolesFaltantes);
+    }
+
+
+    @Test
+    public void contratarPorCancionTest() {
+        final Recital nuevoRecital = recital;
+        final ArtistaCandidato pedro1 = new ArtistaCandidato("Pedro1", List.of(Banda.GUNS), List.of(Rol.BAJISTA),10.0, 3);
+        final ArtistaCandidato pedro2 = new ArtistaCandidato("Pedro2", List.of(Banda.GUNS), List.of(Rol.GUITARRISTA),10.0, 3);
+        final ArtistaCandidato pedro3 = new ArtistaCandidato("Pedro3", List.of(Banda.SODA), List.of(Rol.GUITARRISTA),10.0, 3);
+
+        nuevoRecital.contratar(Set.of(pedro1, pedro2, pedro3), cancion, Rol.GUITARRISTA);
+
+
+       assertTrue(nuevoRecital.getArtistas().contains(pedro2));
+
+        assertTrue(nuevoRecital.getRelacionArtistaCancion().stream()
+                .anyMatch(rel -> rel.getArtista().equals(pedro2)));
     }
 }
