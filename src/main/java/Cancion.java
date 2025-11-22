@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.HashSet;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
@@ -104,14 +105,8 @@ public class Cancion {
     }
 
     public void getRolesFaltantes() {
-        HashMap<Rol, Integer> rolesCubiertos = new HashMap<>();
+        HashMap<Rol, Integer> rolesCubiertos = getRolesCubiertos();
 
-        for(int i = 0; i < rolesRequeridos.size(); i++) {
-            Rol rol = rolesRequeridos.get(i);
-            int cantidad = (this.artistasAsignados.get(i) == null) ? 0 : 1;
-            rolesCubiertos.put(rol, rolesCubiertos.getOrDefault(rol, 0) + cantidad);
-
-        }
         for (Rol rol: rolesCubiertos.keySet()) {
             int ocurrencias = Collections.frequency(rolesRequeridos, rol);
             int totales = rolesCubiertos.get(rol);
@@ -120,5 +115,41 @@ public class Cancion {
             System.out.println("Cubiertos: " + totales);
             System.out.println("> Faltantes: " + (ocurrencias - totales));
         }
+    }
+
+
+    public HashMap<Rol, Integer> getRolesCubiertos() {
+        HashMap<Rol, Integer> rolesCubiertos = new HashMap<>();
+
+        if (artistasAsignados != null) {
+            for(int i = 0; i < rolesRequeridos.size(); i++) {
+                Rol rol = rolesRequeridos.get(i);
+                int cantidad = (i < artistasAsignados.size() && artistasAsignados.get(i) != null) ? 1 : 0;
+                rolesCubiertos.put(rol, rolesCubiertos.getOrDefault(rol, 0) + cantidad);
+            }
+        }
+        return rolesCubiertos;
+    }
+
+
+    public HashMap<Rol, Integer> getRolesNecesarios() {
+        HashMap<Rol, Integer> rolesNecesarios = new HashMap<>();
+        for (Rol rol : rolesRequeridos) {
+            rolesNecesarios.put(rol, rolesNecesarios.getOrDefault(rol, 0) + 1);
+        }
+        return rolesNecesarios;
+    }
+
+
+    public HashSet<ArtistaBase> getArtistasBaseAsignados() {
+        HashSet<ArtistaBase> artistasBase = new HashSet<>();
+        if (artistasAsignados != null) {
+            for (Artista artista : artistasAsignados) {
+                if (artista instanceof ArtistaBase) {
+                    artistasBase.add((ArtistaBase) artista);
+                }
+            }
+        }
+        return artistasBase;
     }
 }

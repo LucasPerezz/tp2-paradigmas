@@ -1,7 +1,5 @@
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Main {
@@ -22,7 +20,7 @@ public class Main {
 
 
 
-        Recital recital = new Recital(artistas, canciones);
+        Recital recital = new Recital(artistas, canciones, null);
         MenuRecital menu = new MenuRecital(recital);
 
         menu.iniciar();

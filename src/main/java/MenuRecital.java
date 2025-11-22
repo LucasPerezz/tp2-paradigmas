@@ -92,14 +92,29 @@ public class MenuRecital {
         System.out.println("  ROLES FALTANTES PARA TODAS LAS CANCIONES");
         System.out.println("═══════════════════════════════════════════════════════\n");
 
-        // TODO: Implementar metodos
+        RolesFaltantesInfo info = this.recital.calcularRolesFaltantesTodas();
+        
         System.out.println("\nRoles totales necesarios:");
-        System.out.println("- Guitarrista: 5");
-        System.out.println("- Baterista: 3");
-        System.out.println("- Vocalista: 4");
-        System.out.println("- Bajista: 2");
-        System.out.println("\nTotal de roles cubiertos: 8");
-        System.out.println("Total de roles faltantes: 6");
+        Rol[] todosLosRoles = Rol.values();
+        
+        for (Rol rol : todosLosRoles) {
+            int necesarios = info.getRolesNecesarios().getOrDefault(rol, 0);
+            if (necesarios > 0) {
+                String nombreRol = capitalizarRol(rol.toString());
+                System.out.println("- " + nombreRol + ": " + necesarios);
+            }
+        }
+        
+        System.out.println("\nTotal de roles necesarios: " + info.getTotalNecesarios());
+        System.out.println("Total de roles cubiertos: " + info.getTotalCubiertos());
+        System.out.println("Total de roles faltantes: " + info.getTotalFaltantes());
+    }
+
+    private String capitalizarRol(String rol) {
+        if (rol == null || rol.isEmpty()) {
+            return rol;
+        }
+        return rol.substring(0, 1).toUpperCase() + rol.substring(1).toLowerCase();
     }
 
     // ========== OPCIÓN 3 ==========

@@ -3,6 +3,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
@@ -15,28 +17,21 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
         @JsonSubTypes.Type(value = ArtistaCandidato.class, name = "CANDIDATO")
 })
 
+@NoArgsConstructor
+@Getter
 public abstract class Artista {
     private String nombre;
     private List<Banda> bandas;
     private List<Rol> roles;
     private double costoPorCancion;
-
-    public Artista() {
-    }
+    //TODO: Borrar cuando tengamos la clase ArtistaContratado con esta propiedad
+    private int maximoCancionesPorRecital;
 
     public Artista(String nombre, double costoPorCancion) {
         this.nombre = nombre;
         this.costoPorCancion = costoPorCancion;
         this.bandas = new ArrayList<>();
         this.roles = new ArrayList<>();
-    }
-
-    public List<Banda> getBandas() {
-        return bandas;
-    }
-
-    public List<Rol> getRoles() {
-        return roles;
     }
 
     public Boolean agregarBanda(Banda banda) {
@@ -55,12 +50,13 @@ public abstract class Artista {
         return true;
     }
 
-    public double getCostoPorCancion() {
-        return costoPorCancion;
+    public boolean tieneRol(final Rol rol) {
+        return roles.contains(rol);
     }
 
-    public String getNombre() {
-        return nombre;
+    public boolean llegoAlMaximo(final List<Cancion> cancionesAsignadas){
+        //TODO: Cuando tengasmos la clase ArtistaContratado, retornar falso en el abstracto, y mover esta logica hacia ArtistaContratado
+        return cancionesAsignadas.size() == maximoCancionesPorRecital;
     }
 
     public void setCostoPorCancion(double costoPorCancion) {
