@@ -1,5 +1,4 @@
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.*;
@@ -60,6 +59,25 @@ public class Recital {
         }
 
         return rolesFaltantes;
+    }
+
+    public void contratar(final Set<ArtistaCandidato> artistas, final Cancion cancion, final Rol rol) {
+        final Set<ArtistaCandidato> artistasConRol = artistas.stream()
+                .filter(artista -> artista.getRoles().contains(rol))
+                .collect(Collectors.toSet());
+
+        ArtistaCandidato artistaMasBarato = null;
+        double costoMasBarato = 0.0;
+
+        for (ArtistaCandidato artista : artistasConRol) {
+            double costo = artista.calcularCosto(this.artistas);
+            if (costo < costoMasBarato) {
+                artistaMasBarato = artista;
+                costoMasBarato = costo;
+            }
+        }
+
+        relacionArtistaCancion.add(new RelacionArtistaCancion(artistaMasBarato, cancion, rol));
     }
 
     private Artista obtenerArtistaConRol(final Rol rol, final Cancion cancion) {

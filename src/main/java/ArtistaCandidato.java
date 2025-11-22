@@ -8,10 +8,10 @@ public class ArtistaCandidato extends Artista {
     }
 
     public boolean llegoAlMaximo(final List<Cancion> cancionesAsignadas) {
-        return cancionesAsignadas.size() != maximoCancionesPorRecital;
+        return cancionesAsignadas.size() == maximoCancionesPorRecital;
     }
 
-    public double calcularCosto(final Cancion cancion, final Set<ArtistaBase> artistasBases) {
+    public double calcularCosto(final List<Artista> artistasBases) {
         final List<Banda> bandasDeLosBases = artistasBases.stream()
                 .map(Artista::getBandas)
                 .flatMap(List::stream)
