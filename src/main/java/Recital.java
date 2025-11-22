@@ -44,6 +44,24 @@ public class Recital {
                 .count();
     }
 
+    public int rolesFaltantesRecital() {
+        int rolesFaltantes = 0;
+
+        for (Cancion cancion : cancionesLineUp) {
+            Set<Rol> rolesCumplidos = relacionArtistaCancion.stream()
+                    .filter(rel -> rel.getCancion().equals(cancion))
+                    .map(RelacionArtistaCancion::getRolQueCumple)
+                    .collect(Collectors.toSet());
+
+            int cantidadRequeridos = cancion.getRolesRequeridos().size();
+            int cantidadCumplidos = rolesCumplidos.size();
+
+            rolesFaltantes += (cantidadRequeridos - cantidadCumplidos);
+        }
+
+        return rolesFaltantes;
+    }
+
     private Artista obtenerArtistaConRol(final Rol rol, final Cancion cancion) {
         return artistas.stream()
                 .filter(artista -> artista.tieneRol(rol))

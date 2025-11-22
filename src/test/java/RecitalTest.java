@@ -16,7 +16,7 @@ public class RecitalTest {
 
     @Before
     public void setUp() {
-        cancion = new Cancion("Crimen", List.of(Rol.VOCALISTA, Rol.GUITARRISTA));
+        cancion = new Cancion("Crimen", List.of(Rol.VOCALISTA, Rol.GUITARRISTA, Rol.PIANISTA));
 
         pepe1 = new ArtistaBase("Pepe1", List.of(), List.of(Rol.BAJISTA),10.0, 3);
         pepe2 = new ArtistaBase("Pepe2", List.of(), List.of(Rol.VOCALISTA),5.0, 1);
@@ -50,5 +50,11 @@ public class RecitalTest {
         final Cancion cancionNueva = new Cancion("Magia veneno", List.of(Rol.VOCALISTA, Rol.GUITARRISTA, Rol.BATERISTA, Rol.BAJISTA));
         final int falta = recital.rolesFaltantes(cancionNueva);
         assertEquals(2, falta);
+    }
+
+    @Test
+    public void rolesFaltantesRecitalTest() {
+        final int rolesFaltantes = recital.rolesFaltantesRecital();
+        assertEquals(1, rolesFaltantes);
     }
 }
