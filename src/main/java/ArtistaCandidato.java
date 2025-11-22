@@ -1,8 +1,14 @@
-import java.util.ArrayList;
+import lombok.AllArgsConstructor;
+
 import java.util.List;
 
+@AllArgsConstructor
 public class ArtistaCandidato extends Artista{
-    private Double costoContratacion;
+
+    public boolean llegoAlMaximo(final List<Cancion> cancionesAsignadas){
+        return cancionesAsignadas.size() != maximoCancionesPorRecital;
+    }
+   /* private Double costoContratacion;
     private List<Rol> rolesEntrenados;
 
     public ArtistaCandidato() {
@@ -91,5 +97,5 @@ public class ArtistaCandidato extends Artista{
         this.rolesEntrenados.add(nuevoRol);
         this.costoContratacion = costoContratacion * 1.5;
         return true;
-    }
+    }*/
 }

@@ -1,29 +1,19 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.HashSet;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 
 @JsonIgnoreProperties
+@AllArgsConstructor
+@Getter
 public class Cancion {
     private String nombre;
     private List<Rol> rolesRequeridos;
-    private List<Artista> artistasAsignados;  // Índice paralelo a rolesRequeridos
-    private List<AsignacionArtista> asignaciones;
-    // private List<HashMap<Rol, Artista>>??
+  //  private List<Artista> artistasAsignados;  // Índice paralelo a rolesRequeridos
+  //  private List<AsignacionArtista> asignaciones;
 
-    public Cancion() {
-    }
-
-    public Cancion(String nombre, List<Rol> rolesRequeridos) {
-        this.nombre = nombre;
-        this.rolesRequeridos = rolesRequeridos;
-        this.asignaciones = new ArrayList<>(Collections.nCopies(rolesRequeridos.size(), null));
-    }
-
-    @Override
+  /*  @Override
     public String toString() {
 
         List<String> lineas = new ArrayList<>();
@@ -151,5 +141,5 @@ public class Cancion {
             }
         }
         return artistasBase;
-    }
+    }*/
 }

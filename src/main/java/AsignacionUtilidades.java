@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 public class AsignacionUtilidades {
 
     public static void vincularDatos(List<Artista> todosLosArtistas, List<Cancion> todasLasCanciones) {
-        Map<String, Artista> mapaArtistas = todosLosArtistas.stream()
+     /*   Map<String, Artista> mapaArtistas = todosLosArtistas.stream()
                 .collect(Collectors.toMap(Artista::getNombre, Function.identity()));
 
         for (Cancion cancion : todasLasCanciones) {
@@ -58,6 +58,6 @@ public class AsignacionUtilidades {
 
             // Establecer la lista de artistas vinculados manteniendo el orden paralelo
             cancion.setArtistasAsignados(artistasVinculados);
-        }
+        }*/
     }
 }

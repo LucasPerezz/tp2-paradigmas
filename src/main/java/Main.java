@@ -7,7 +7,7 @@ public class Main {
 
         System.out.println("TP PARADIGMAS");
 
-        // == Recital
+        /*// == Recital
         List<Cancion> canciones = null;
         List<Artista> artistas = null;
         try {
@@ -23,6 +23,6 @@ public class Main {
         Recital recital = new Recital(artistas, canciones, null);
         MenuRecital menu = new MenuRecital(recital);
 
-        menu.iniciar();
+        menu.iniciar();*/
     }
 }

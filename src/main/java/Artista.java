@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -22,27 +21,26 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public abstract class Artista {
-    private String nombre;
-    private List<Banda> bandas;
-    private List<Rol> roles;
-    private double costoPorCancion;
+    protected String nombre;
+    protected List<Banda> bandas;
+    protected List<Rol> roles;
+    protected double costoPorCancion;
+    protected int maximoCancionesPorRecital;
 
-    public Artista(String nombre, double costoPorCancion) {
+ /*   public Artista(String nombre, double costoPorCancion) {
         this.nombre = nombre;
         this.costoPorCancion = costoPorCancion;
         this.bandas = new ArrayList<>();
         this.roles = new ArrayList<>();
     }
-
+*/
     public boolean tieneRol(final Rol rol) {
         return roles.contains(rol);
     }
 
-    public boolean llegoAlMaximo(final List<Cancion> cancionesAsignadas){
-       return false;
-    }
+    public abstract boolean llegoAlMaximo(final List<Cancion> cancionesAsignadas);
 
-//Posibles metodos
+/*
     public Boolean agregarBanda(Banda banda) {
         if(this.bandas.contains(banda)) {
             return false;
@@ -60,5 +58,5 @@ public abstract class Artista {
     }
     public void setCostoPorCancion(double costoPorCancion) {
         this.costoPorCancion = costoPorCancion;
-    }
+    }*/
 }

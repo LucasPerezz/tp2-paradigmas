@@ -3,8 +3,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -63,7 +61,7 @@ public class Recital {
         List<Artista> artistasSobrantes = new ArrayList<>();
 
         for(Artista artista : artistas){
-            if (!artista.llegoAlMaximo(cancionesPorArtista.getOrDefault(artista, List.of()))){
+            if (artista.llegoAlMaximo(cancionesPorArtista.getOrDefault(artista, List.of()))){
                 artistasSobrantes.add(artista);
             }
         }
@@ -71,7 +69,7 @@ public class Recital {
         return artistasSobrantes;
     }
 
-    public RolesFaltantesInfo calcularRolesFaltantesTodas() {
+   /* public RolesFaltantesInfo calcularRolesFaltantesTodas() {
         HashMap<Rol, Integer> rolesNecesarios = new HashMap<>();
         HashMap<Rol, Integer> rolesCubiertos = new HashMap<>();
         HashMap<ArtistaBase, HashSet<Cancion>> cancionesPorArtistaBase = new HashMap<>();
@@ -141,7 +139,7 @@ public class Recital {
 
         return new RolesFaltantesInfo(rolesNecesarios, rolesCubiertos, rolesFaltantes, 
             totalNecesarios, totalCubiertos, totalFaltantes);
-    }
+    }*/
 
-    
+
 }
