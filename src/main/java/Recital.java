@@ -11,8 +11,8 @@ public class Recital {
     private final Set<RelacionArtistaCancion> relacionArtistaCancion;
     // TODO: Calcular descuentos por compartir bandas (estaba en el constructor)
 
-    public Recital(final List<Artista> artistas, final List<Cancion> cancionesLineUp) {
-        this.artistas = artistas;
+    public Recital(final List<ArtistaBase> artistasBase, final List<Cancion> cancionesLineUp) {
+        this.artistas = new ArrayList<>(artistasBase);
         this.cancionesLineUp = cancionesLineUp;
         relacionArtistaCancion = new HashSet<>();
     }
@@ -66,11 +66,13 @@ public class Recital {
                 .filter(artista -> artista.getRoles().contains(rol))
                 .collect(Collectors.toSet());
 
+        final Set<ArtistaBase> artistaBases = getArtistasBase();
+
         ArtistaCandidato artistaMasBarato = null;
         double costoMasBarato = 0.0;
 
         for (ArtistaCandidato artista : artistasConRol) {
-            double costo = artista.calcularCosto(this.artistas);
+            double costo = artista.calcularCosto(artistaBases);
             if (costo < costoMasBarato) {
                 artistaMasBarato = artista;
                 costoMasBarato = costo;
@@ -78,6 +80,13 @@ public class Recital {
         }
 
         relacionArtistaCancion.add(new RelacionArtistaCancion(artistaMasBarato, cancion, rol));
+    }
+
+    private Set<ArtistaBase> getArtistasBase() {
+        return artistas.stream()
+                .filter(artista -> artista instanceof ArtistaBase)
+                .map(ArtistaBase.class::cast)
+                .collect(Collectors.toSet());
     }
 
     private Artista obtenerArtistaConRol(final Rol rol, final Cancion cancion) {

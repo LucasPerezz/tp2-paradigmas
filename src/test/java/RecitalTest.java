@@ -8,11 +8,11 @@ import static org.junit.Assert.*;
 
 public class RecitalTest {
     private Cancion cancion;
-    private List<Artista> artistas = new ArrayList<>();
+    private List<ArtistaBase> artistas = new ArrayList<>();
     private Recital recital;
-    private Artista pepe1;
-    private Artista pepe2;
-    private Artista pepe3;
+    private ArtistaBase pepe1;
+    private ArtistaBase pepe2;
+    private ArtistaBase pepe3;
 
     @Before
     public void setUp() {

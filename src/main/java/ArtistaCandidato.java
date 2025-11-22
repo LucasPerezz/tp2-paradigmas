@@ -1,6 +1,7 @@
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ArtistaCandidato extends Artista {
     public ArtistaCandidato(final String nombre, List<Banda> bandas, List<Rol> roles, double costoPorCancion, int maximoCancionesPorRecital) {
@@ -11,12 +12,11 @@ public class ArtistaCandidato extends Artista {
         return cancionesAsignadas.size() == maximoCancionesPorRecital;
     }
 
-    public double calcularCosto(final List<Artista> artistasBases) {
-        final List<Banda> bandasDeLosBases = artistasBases.stream()
+    public double calcularCosto(final Set<ArtistaBase> artistasBases) {
+        final Set<Banda> bandasDeLosBases = artistasBases.stream()
                 .map(Artista::getBandas)
                 .flatMap(List::stream)
-                .distinct()
-                .toList();
+                .collect(Collectors.toSet());
 
         boolean coincidencia = false;
 
