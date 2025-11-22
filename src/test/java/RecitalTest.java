@@ -1,12 +1,10 @@
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 public class RecitalTest {
     private Cancion cancion;
@@ -34,9 +32,17 @@ public class RecitalTest {
 
     @Test
     public void asignacionDeCancionesTest(){
-        assertNull(recital.getCancionesPorArtista().get(pepe1));
-        assertEquals("Crimen", recital.getCancionesPorArtista().get(pepe2).get(0).getNombre());
-        assertEquals("Crimen", recital.getCancionesPorArtista().get(pepe3).get(0).getNombre());
+        assertEquals(2, recital.getRelacionArtistaCancion().size());
+
+        assertTrue(recital.getRelacionArtistaCancion().stream()
+                .anyMatch(rel -> rel.getArtista().equals(pepe2) 
+                        && rel.getCancion().equals(cancion) 
+                        && rel.getRolQueCumple() == Rol.VOCALISTA));
+
+        assertTrue(recital.getRelacionArtistaCancion().stream()
+                .anyMatch(rel -> rel.getArtista().equals(pepe3) 
+                        && rel.getCancion().equals(cancion) 
+                        && rel.getRolQueCumple() == Rol.GUITARRISTA));
     }
 
     @Test
