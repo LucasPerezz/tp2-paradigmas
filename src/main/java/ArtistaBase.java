@@ -17,9 +17,7 @@ public class ArtistaBase extends Artista{
     {
         super(nombre, costoPorCancion);
         this.cancionesMaximas = cancionesMaximas;
-    }
-
-    public ArtistaBase() {}
+    }*/
 
     @Override
     public String toString() {
@@ -37,7 +35,7 @@ public class ArtistaBase extends Artista{
         lineas.add("Bandas: ");
         for (int i = 0; i < getBandas().size(); i++) {
             Banda banda = getBandas().get(i);
-            lineas.add("  " + banda.getNombre());
+            lineas.add("  " + banda.toString());
         }
 
         // Roles
@@ -72,7 +70,7 @@ public class ArtistaBase extends Artista{
     }
 
     public int getCancionesMaximas() {
-        return cancionesMaximas;
-    }*/
+        return maximoCancionesPorRecital;
+    }
 
 }

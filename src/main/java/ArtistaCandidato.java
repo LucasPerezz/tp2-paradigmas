@@ -1,9 +1,13 @@
 
+import lombok.Getter;
+
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class ArtistaCandidato extends Artista {
+    @Getter
+    int costoContratacion;
     public ArtistaCandidato(final String nombre, List<Banda> bandas, List<Rol> roles, double costoPorCancion, int maximoCancionesPorRecital) {
         super(nombre, bandas, roles, costoPorCancion, maximoCancionesPorRecital);
     }
@@ -113,11 +117,14 @@ public class ArtistaCandidato extends Artista {
 
         return sb.toString();
     }
-
+    */
     // entrenar
     public Boolean entrenarArtista(Rol nuevoRol) {
-        this.rolesEntrenados.add(nuevoRol);
-        this.costoContratacion = costoContratacion * 1.5;
-        return true;
-    }*/
+        if(!getRoles().contains(nuevoRol)) {
+            this.getRoles().add(nuevoRol);
+            this.costoContratacion *= 1.5;
+            return true;
+        }
+        return false;
+    }
 }
