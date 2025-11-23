@@ -91,8 +91,10 @@ public class Recital {
             throw new RuntimeException("No hay artista con rol " + rol + " que pueda interpretar la cancion " + cancion.getNombre());
         }
 
-       this.artistas.add(artistaMasBarato);
+        artistaMasBarato.contratado();
+        this.artistas.add(artistaMasBarato);
         relacionArtistaCancion.add(new RelacionArtistaCancion(artistaMasBarato, cancion, rol));
+
     }
 
     public void contratacionMasiva(final Set<ArtistaCandidato> artistaCandidatos) {
