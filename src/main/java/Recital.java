@@ -47,10 +47,7 @@ public class Recital {
         int rolesFaltantes = 0;
 
         for (Cancion cancion : cancionesLineUp) {
-            Set<Rol> rolesCumplidos = relacionArtistaCancion.stream()
-                    .filter(rel -> rel.getCancion().equals(cancion))
-                    .map(RelacionArtistaCancion::getRolQueCumple)
-                    .collect(Collectors.toSet());
+            Set<Rol> rolesCumplidos = rolesCumplidosPorCancion(cancion);
 
             int cantidadRequeridos = cancion.getRolesRequeridos().size();
             int cantidadCumplidos = rolesCumplidos.size();
@@ -61,8 +58,19 @@ public class Recital {
         return rolesFaltantes;
     }
 
+    private Set<Rol> rolesCumplidosPorCancion(final Cancion cancion) {
+        return relacionArtistaCancion.stream()
+                .filter(rel -> rel.getCancion().equals(cancion))
+                .map(RelacionArtistaCancion::getRolQueCumple)
+                .collect(Collectors.toSet());
+    }
+
     public void contratar(final Set<ArtistaCandidato> artistas, final Cancion cancion, final Rol rol) {
-        final Set<ArtistaCandidato> artistasConRol = artistas.stream()
+        final Set<ArtistaCandidato> artistasPermitdos = artistas.stream()
+                .filter(art -> !art.llegoAlMaximo(cancionesInterpretadasPor(art)))
+                .collect(Collectors.toSet());
+
+        final Set<ArtistaCandidato> artistasConRol = artistasPermitdos.stream()
                 .filter(artista -> artista.getRoles().contains(rol))
                 .collect(Collectors.toSet());
 
@@ -79,9 +87,28 @@ public class Recital {
             }
         }
 
+        if (artistaMasBarato == null) {
+            throw new RuntimeException("No hay artista con rol " + rol + " que pueda interpretar la cancion " + cancion.getNombre());
+        }
+
        this.artistas.add(artistaMasBarato);
         relacionArtistaCancion.add(new RelacionArtistaCancion(artistaMasBarato, cancion, rol));
     }
+
+    public void contratacionMasiva(final Set<ArtistaCandidato> artistaCandidatos) {
+        for(Cancion cancion : cancionesLineUp) {
+            Set<Rol> rolesCumplidos = rolesCumplidosPorCancion(cancion);
+
+            Set<Rol> rolesFaltantes = cancion.getRolesRequeridos().stream()
+                    .filter(rol -> !rolesCumplidos.contains(rol))
+                    .collect(Collectors.toSet());
+
+            for(Rol rol : rolesFaltantes) {
+                contratar(artistaCandidatos, cancion, rol);
+            }
+        }
+    }
+
 
     private Set<ArtistaBase> getArtistasBase() {
         return artistas.stream()

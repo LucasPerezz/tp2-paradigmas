@@ -3,6 +3,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.LongSummaryStatistics;
 import java.util.Set;
 
 import static org.junit.Assert.*;
@@ -74,5 +75,29 @@ public class RecitalTest {
 
         assertTrue(nuevoRecital.getRelacionArtistaCancion().stream()
                 .anyMatch(rel -> rel.getArtista().equals(pedro2)));
+    }
+
+    @Test
+    public void contratacionesMasivasTest() {
+        final Cancion cancion2 = new Cancion("Setentistas", List.of(Rol.BAJISTA, Rol.VOCALISTA, Rol.GUITARRISTA, Rol.BATERISTA));
+
+        final Recital nuevoRecital = new Recital(List.of(pepe1,pepe2), List.of(cancion,cancion2));
+        nuevoRecital.asignacionAutomaticaDeCanciones();
+
+        final ArtistaCandidato pedro1 = new ArtistaCandidato("Pedro1", List.of(Banda.GUNS), List.of(Rol.BAJISTA, Rol.PIANISTA),10.0, 3);
+        final ArtistaCandidato pedro2 = new ArtistaCandidato("Pedro2", List.of(Banda.GUNS), List.of(Rol.GUITARRISTA),10.0, 3);
+        final ArtistaCandidato pedro3 = new ArtistaCandidato("Pedro3", List.of(Banda.SODA), List.of(Rol.GUITARRISTA),10.0, 3);
+        final ArtistaCandidato pedro4 = new ArtistaCandidato("Pedro4", List.of(Banda.SODA), List.of(Rol.BATERISTA),6.0, 3);
+        final ArtistaCandidato pedro5 = new ArtistaCandidato("Pedro5", List.of(Banda.GUNS), List.of(Rol.BATERISTA),6.0, 2);
+        final ArtistaCandidato pedro6 = new ArtistaCandidato("Pedro6", List.of(Banda.SODA), List.of(Rol.VOCALISTA),6.0, 2);
+
+        final Set<ArtistaCandidato> artistas = Set.of(pedro1, pedro2, pedro3, pedro4, pedro5,pedro6);
+        nuevoRecital.contratacionMasiva(artistas);
+
+        assertTrue(nuevoRecital.getArtistas().contains(pepe2));
+        assertTrue(nuevoRecital.getArtistas().contains(pedro1));
+        assertTrue(nuevoRecital.getArtistas().contains(pedro2));
+        assertTrue(nuevoRecital.getArtistas().contains(pedro5));
+        assertTrue(nuevoRecital.getArtistas().contains(pedro6));
     }
 }
