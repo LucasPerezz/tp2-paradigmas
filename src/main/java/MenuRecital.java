@@ -269,7 +269,7 @@ public class MenuRecital {
 
         // == Entrenamiento
         if (confirmacion.equals("S")) {
-            artistaSeleccionado.entrenarArtista(rolSeleccionado);
+            artistaSeleccionado.entrenar(rolSeleccionado);
             System.out.println("\nEntrenamiento completado exitosamente.");
             System.out.println(artistaSeleccionado.getNombre() + " ahora puede desempeñar el rol " + rolSeleccionado);
         } else {

@@ -15,7 +15,7 @@ public class RecitalTest {
 
     @Before
     public void setUp() {
-        cancion = new Cancion("Crimen", List.of(Rol.VOCALISTA, Rol.GUITARRISTA, Rol.PIANISTA, Rol.GUITARRISTA));
+        cancion = new Cancion("Crimen", List.of(Rol.VOCALISTA, Rol.GUITARRISTA, Rol.PIANISTA));
 
         pepe1 = new ArtistaBase("Pepe1", List.of(), new ArrayList<>(List.of(Rol.BAJISTA)),10.0, 3);
         pepe2 = new ArtistaBase("Pepe2", List.of(Banda.GUNS), new ArrayList<>(List.of(Rol.VOCALISTA)),5.0, 1);
