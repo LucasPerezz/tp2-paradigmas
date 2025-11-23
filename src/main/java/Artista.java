@@ -43,10 +43,6 @@ public abstract class Artista {
 
     public abstract boolean llegoAlMaximo(final List<Cancion> cancionesAsignadas);
 
-    public String toString() {
-        return nombre;
-    }
-
     @Override
     public boolean equals(Object o) {
         Artista artista = (Artista) o;

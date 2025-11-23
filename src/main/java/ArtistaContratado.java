@@ -2,6 +2,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ArtistaContratado extends Artista {
 
@@ -10,17 +11,37 @@ public class ArtistaContratado extends Artista {
     }
 
     @Override
-    public boolean llegoAlMaximo(List<Cancion> cancionesAsignadas) {
+    public boolean llegoAlMaximo(final List<Cancion> cancionesAsignadas) {
         return cancionesAsignadas.size() == maximoCancionesPorRecital;
     }
 
-    public static ArtistaContratado contratar(final ArtistaCandidato artistaCandidato, final double costoPorCancionAcordado){
+    public double calcularCostoDeContratacion(final List<Cancion> cancionesAsignadas) {
+        return  cancionesAsignadas.size() * costoPorCancion;
+    }
+
+    public static ArtistaContratado contratar(final ArtistaCandidato artistaCandidato, final double costoPorCancionAcordado) {
         return new ArtistaContratado(
                 artistaCandidato.getNombre(),
                 artistaCandidato.getBandas(),
                 artistaCandidato.getRoles(),
                 costoPorCancionAcordado,
                 artistaCandidato.getMaximoCancionesPorRecital()
+        );
+    }
+
+    @Override
+    public String toString(){
+        final String bandasString = bandas.stream()
+                .map(Banda::toString)
+                .collect(Collectors.joining(", "));
+
+        final String rolesString = roles.stream()
+                .map(Rol::toString)
+                .collect(Collectors.joining(", "));
+
+        return String.format(
+                "Nombre: %s, Bandas: %s, Roles: %s, consto contratado por cancion: %s, maximo dispuesto a tocar: %s",
+                this.nombre, bandasString, rolesString, this.costoPorCancion
         );
     }
 }
