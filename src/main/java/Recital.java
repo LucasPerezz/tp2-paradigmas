@@ -93,9 +93,27 @@ public class Recital {
 
         final ArtistaContratado artistaContratado = ArtistaContratado.contratar(artistaMasBarato, costoMasBarato);
 
-        this.artistas.add(artistaContratado);
+        final boolean artistaCargado =  this.artistas.stream()
+                .anyMatch(art -> art.equals(artistaContratado));
+
+        if(!artistaCargado) { //evito cargar repetidos
+            this.artistas.add(artistaContratado);
+        }
+
         relacionArtistaCancion.add(new RelacionArtistaCancion(artistaContratado, cancion, rol));
 
+    }
+
+    public Set<ArtistaContratado> getArtistasContratados() {
+       Set<ArtistaContratado> artistasContratados = new HashSet<>();
+
+        for (Artista artista : artistas) {
+            if(artista instanceof ArtistaContratado) {
+                artistasContratados.add((ArtistaContratado) artista);
+            }
+        }
+
+        return  artistasContratados;
     }
 
     public void contratacionMasiva(final Set<ArtistaCandidato> artistaCandidatos) {

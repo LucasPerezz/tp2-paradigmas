@@ -2,9 +2,11 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class ArtistaContratado extends Artista {
+    private Set<Cancion> cancionesAsignadas;
 
     private ArtistaContratado(final String nombre, List<Banda> bandas, List<Rol> roles, double costoPorCancion, int maximoCancionesPorRecital) {
         super(nombre, bandas, new ArrayList<>(roles), costoPorCancion, maximoCancionesPorRecital);
@@ -27,6 +29,10 @@ public class ArtistaContratado extends Artista {
                 costoPorCancionAcordado,
                 artistaCandidato.getMaximoCancionesPorRecital()
         );
+    }
+
+    public void asignarCancion(final Cancion cancion) {
+        cancionesAsignadas.add(cancion);
     }
 
     @Override
