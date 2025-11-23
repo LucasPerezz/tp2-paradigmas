@@ -102,11 +102,29 @@ public class Recital {
             throw new RuntimeException("No hay artista con rol " + rol + " que pueda interpretar la cancion " + cancion.getNombre());
         }
 
-        artistaMasBarato.contratado();
-        this.artistas.add(artistaMasBarato);
-        relacionArtistaCancion.add(new RelacionArtistaCancion(artistaMasBarato, cancion, rol));
-        System.out.println(cancion.getNombre() + ": Se contrató a " + artistaMasBarato.getNombre() + " para desempeñar el rol " + rol.toString());
+        final ArtistaContratado artistaContratado = ArtistaContratado.contratar(artistaMasBarato, costoMasBarato);
 
+        final boolean artistaCargado =  this.artistas.stream()
+                .anyMatch(art -> art.equals(artistaContratado));
+
+        if(!artistaCargado) { //evito cargar repetidos
+            this.artistas.add(artistaContratado);
+        }
+
+        relacionArtistaCancion.add(new RelacionArtistaCancion(artistaContratado, cancion, rol));
+
+    }
+
+    public Set<ArtistaContratado> getArtistasContratados() {
+       Set<ArtistaContratado> artistasContratados = new HashSet<>();
+
+        for (Artista artista : artistas) {
+            if(artista instanceof ArtistaContratado) {
+                artistasContratados.add((ArtistaContratado) artista);
+            }
+        }
+
+        return  artistasContratados;
     }
 
     public void contratacionMasiva(final Set<ArtistaCandidato> artistaCandidatos) {
