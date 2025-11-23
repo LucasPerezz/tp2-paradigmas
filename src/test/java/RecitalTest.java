@@ -68,13 +68,15 @@ public class RecitalTest {
         final ArtistaCandidato pedro2 = new ArtistaCandidato("Pedro2", List.of(Banda.GUNS), List.of(Rol.GUITARRISTA),10.0, 3);
         final ArtistaCandidato pedro3 = new ArtistaCandidato("Pedro3", List.of(Banda.SODA), List.of(Rol.GUITARRISTA),10.0, 3);
 
+        final ArtistaContratado pedro2Contratado = ArtistaContratado.contratar(pedro2,5.0);
+
         nuevoRecital.contratar(Set.of(pedro1, pedro2, pedro3), cancion, Rol.GUITARRISTA);
 
 
-       assertTrue(nuevoRecital.getArtistas().contains(pedro2));
+       assertTrue(nuevoRecital.getArtistas().contains(pedro2Contratado));
 
         assertTrue(nuevoRecital.getRelacionArtistaCancion().stream()
-                .anyMatch(rel -> rel.getArtista().equals(pedro2)));
+                .anyMatch(rel -> rel.getArtista().equals(pedro2Contratado)));
     }
 
     @Test
