@@ -1,10 +1,15 @@
 
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class ArtistaCandidato extends Artista {
+    @Getter
+    int costoContratacion;
+
     private boolean contratado = false;
 
     public ArtistaCandidato(final String nombre, List<Banda> bandas, List<Rol> roles, double costoPorCancion, int maximoCancionesPorRecital) {

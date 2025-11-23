@@ -1,16 +1,13 @@
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.LongSummaryStatistics;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
 public class RecitalTest {
     private Cancion cancion;
-    private List<ArtistaBase> artistas = new ArrayList<>();
+    private List<Artista> artistas = new ArrayList<>();
     private Recital recital;
     private ArtistaBase pepe1;
     private ArtistaBase pepe2;
@@ -48,6 +45,17 @@ public class RecitalTest {
     }
 
     @Test
+    public void imprimirCancionTest(){
+        String response = recital.imprimirCancion(cancion);
+        System.out.println(response);
+    }
+
+    @Test
+    public void imprimirArtistaTest(){
+        System.out.println(pepe1);
+    }
+
+    @Test
     public void rolesFaltantesTest() {
         final Cancion cancionNueva = new Cancion("Magia veneno", List.of(Rol.VOCALISTA, Rol.GUITARRISTA, Rol.BATERISTA, Rol.BAJISTA));
         final int falta = recital.rolesFaltantes(cancionNueva);
@@ -60,6 +68,43 @@ public class RecitalTest {
         assertEquals(1, rolesFaltantes);
     }
 
+    @Test
+    public void calcularRolesFaltantesTodasTest() {
+        RolesFaltantesInfo info = recital.obtenerRolesFaltantesRecital();
+
+        Rol[] todosLosRoles = Rol.values();
+
+        System.out.println("Roles necesarios: ");
+        for (Rol rol : todosLosRoles) {
+            int necesarios = info.getRolesNecesarios().getOrDefault(rol, 0);
+            if (necesarios > 0) {
+                String nombreRol = rol.toString();
+                System.out.println("- " + nombreRol + ": " + necesarios);
+            }
+        }
+
+        System.out.println("Roles cubiertos: ");
+        for (Rol rol : todosLosRoles) {
+            int necesarios = info.getRolesCubiertos().getOrDefault(rol, 0);
+            if (necesarios > 0) {
+                String nombreRol = rol.toString();
+                System.out.println("- " + nombreRol + ": " + necesarios);
+            }
+        }
+
+        System.out.println("Roles faltantes: ");
+        for (Rol rol : todosLosRoles) {
+            int necesarios = info.getRolesFaltantes().getOrDefault(rol, 0);
+            if (necesarios > 0) {
+                String nombreRol = rol.toString();
+                System.out.println("- " + nombreRol + ": " + necesarios);
+            }
+        }
+
+        System.out.println("\nTotal de roles necesarios: " + info.getTotalNecesarios());
+        System.out.println("Total de roles cubiertos: " + info.getTotalCubiertos());
+        System.out.println("Total de roles faltantes: " + info.getTotalFaltantes());
+    }
 
     @Test
     public void contratarPorCancionTest() {
