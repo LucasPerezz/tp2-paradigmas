@@ -310,7 +310,7 @@ public class MenuRecital {
     }
 
     // ========== OPCIÓN 8 ==========
-    /*private void consultasProlog() {
+    private void consultasProlog() {
         System.out.println("╔════════════════════════════════════════════════════════╗");
         System.out.println("║                  CONSULTAS PROLOG                      ║");
         System.out.println("╚════════════════════════════════════════════════════════╝\n");
@@ -330,7 +330,7 @@ public class MenuRecital {
         }
 
         PrologHelper.cargarDatos(this.recital, costoBase);
-    }*/
+    }
 
     // ========== OPCIÓN 9 ==========
     private void confirmarSalida() {
@@ -380,7 +380,7 @@ public class MenuRecital {
                 listarCanciones();
                 break;
             case 8:
-                //consultasProlog();
+                consultasProlog();
                 break;
 
                 // añadir QUITAR artista ((?. Son 2 puntos más.
