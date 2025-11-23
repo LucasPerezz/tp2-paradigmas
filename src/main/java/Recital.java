@@ -336,6 +336,12 @@ public class Recital {
                 totalNecesarios, totalCubiertos, totalFaltantes);
     }
 
+    public void eliminarArtista(final Artista artista) {
+        artistas.remove(artista);
+
+        relacionArtistaCancion.removeIf(rel -> rel.getArtista().equals(artista));
+    }
+
 
    /* public RolesFaltantesInfo calcularRolesFaltantesTodas() {
         HashMap<Rol, Integer> rolesNecesarios = new HashMap<>();
