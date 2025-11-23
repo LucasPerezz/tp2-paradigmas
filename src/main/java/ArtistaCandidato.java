@@ -1,8 +1,36 @@
-import java.util.ArrayList;
-import java.util.List;
 
-public class ArtistaCandidato extends Artista{
-    private Double costoContratacion;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+public class ArtistaCandidato extends Artista {
+    public ArtistaCandidato(final String nombre, List<Banda> bandas, List<Rol> roles, double costoPorCancion, int maximoCancionesPorRecital) {
+        super(nombre, bandas, roles, costoPorCancion, maximoCancionesPorRecital);
+    }
+
+    public boolean llegoAlMaximo(final List<Cancion> cancionesAsignadas) {
+        return cancionesAsignadas.size() == maximoCancionesPorRecital;
+    }
+
+    public double calcularCosto(final Set<ArtistaBase> artistasBases) {
+        final Set<Banda> bandasDeLosBases = artistasBases.stream()
+                .map(Artista::getBandas)
+                .flatMap(List::stream)
+                .collect(Collectors.toSet());
+
+        boolean coincidencia = false;
+
+        for (int i = 0; i < bandas.size() && !coincidencia; i++) {
+            if (bandasDeLosBases.contains(bandas.get(i))) {
+                coincidencia = true;
+            }
+        }
+
+
+        return coincidencia ? costoPorCancion * 0.5 : costoPorCancion;
+    }
+
+   /* private Double costoContratacion;
     private List<Rol> rolesEntrenados;
 
     public ArtistaCandidato() {
@@ -91,5 +119,5 @@ public class ArtistaCandidato extends Artista{
         this.rolesEntrenados.add(nuevoRol);
         this.costoContratacion = costoContratacion * 1.5;
         return true;
-    }
+    }*/
 }

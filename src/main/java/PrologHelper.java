@@ -1,4 +1,4 @@
-import org.jpl7.*;
+//import org.jpl7.*;
 
 import java.util.Map;
 
@@ -8,7 +8,7 @@ public class PrologHelper {
         throw new AssertionError("No se puede instanciar una clase de utilidad");
     }
 
-    public static void cargarDatos(Recital recital, double costoMinimo) {
+   /* public static void cargarDatos(Recital recital, double costoMinimo) {
         for(Artista a :recital.getArtistas()) {
             addArtista(a);
         }
@@ -129,6 +129,6 @@ public class PrologHelper {
         } finally {
             q1.close();
         }
-    }
+    }*/
 
 }

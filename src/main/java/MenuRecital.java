@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class MenuRecital {
-    private Scanner scanner;
+ /*   private Scanner scanner;
     private boolean enCurso;
     private Recital recital;
 
@@ -407,6 +407,6 @@ public class MenuRecital {
         if (enCurso && opcion != 0) {
             pausar();
         }
-    }
+    }*/
 
 }
