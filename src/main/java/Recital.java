@@ -26,6 +26,8 @@ public class Recital {
                     continue;
                 }
                 cancion.agregarRolCubierto(rol);
+                artista.cargarCancion(cancion, rol);
+                //TODO: relacion a borrar
                 relacionArtistaCancion.add(new RelacionArtistaCancion(artista, cancion, rol));
             }
         }
@@ -159,16 +161,17 @@ public class Recital {
     }
 
     private List<Artista> artistaPuedenTocarMas() {
-        List<Artista> artistasSobrantes = new ArrayList<>();
+        //List<Artista> artistasSobrantes = new ArrayList<>();
 
-        for (Artista artista : artistas) {
+        return artistas.stream().filter(Artista::puedeAgregarOtraCancion).toList();
+      /*  for (Artista artista : artistas) {
             final List<Cancion> cancionesInterpretadas = cancionesInterpretadasPor(artista);
             if (!artista.llegoAlMaximo(cancionesInterpretadas)) {
                 artistasSobrantes.add(artista);
             }
         }
 
-        return artistasSobrantes;
+        return artistasSobrantes;*/
     }
 
     private List<Cancion> cancionesInterpretadasPor(final Artista artista) {

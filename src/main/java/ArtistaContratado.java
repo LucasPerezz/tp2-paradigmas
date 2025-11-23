@@ -1,12 +1,9 @@
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ArtistaContratado extends Artista {
-    private Set<Cancion> cancionesAsignadas;
 
     private ArtistaContratado(final String nombre, List<Banda> bandas, List<Rol> roles, double costoPorCancion, int maximoCancionesPorRecital) {
         super(nombre, bandas, new ArrayList<>(roles), costoPorCancion, maximoCancionesPorRecital);
@@ -18,7 +15,7 @@ public class ArtistaContratado extends Artista {
     }
 
     public double calcularCostoDeContratacion(final List<Cancion> cancionesAsignadas) {
-        return  cancionesAsignadas.size() * costoPorCancion;
+        return cancionesAsignadas.size() * costoPorCancion;
     }
 
     public static ArtistaContratado contratar(final ArtistaCandidato artistaCandidato, final double costoPorCancionAcordado) {
@@ -31,12 +28,16 @@ public class ArtistaContratado extends Artista {
         );
     }
 
-    public void asignarCancion(final Cancion cancion) {
-        cancionesAsignadas.add(cancion);
+    @Override
+    public void cargarCancion(final Cancion cancion, final Rol rol) {
+        if (cancioneAsignadas.containsKey(cancion)) {
+            cancioneAsignadas.put(cancion, new HashSet<>());
+        }
+        cancioneAsignadas.get(cancion).add(rol);
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         final String bandasString = bandas.stream()
                 .map(Banda::toString)
                 .collect(Collectors.joining(", "));
