@@ -329,15 +329,25 @@ public class MenuRecital {
 
     // ========== OPCIÓN 8 ==========
     private void consultasProlog() {
-        System.out.println("═══════════════════════════════════════════════════════");
-        System.out.println("  CONSULTAS PROLOG");
-        System.out.println("═══════════════════════════════════════════════════════\n");
+        System.out.println("╔════════════════════════════════════════════════════════╗");
+        System.out.println("║                  CONSULTAS PROLOG                      ║");
+        System.out.println("╚════════════════════════════════════════════════════════╝\n");
 
-        System.out.println("¿Cuántos entrenamientos mínimos debo realizar para cubrir todos " +
-                "los roles para el recital, utilizando solo los miembros base, y artistas " +
-                "contratados sin experiencia y con un coste base por parámetro, para todos iguales?");
+        System.out.println("¿Cuántos entrenamientos mínimos debo realizar para cubrir");
+        System.out.println("todos los roles para el recital, utilizando solo los");
+        System.out.println("miembros base, y artistas contratados sin experiencia");
+        System.out.println("y con un coste base por parámetro, para todos iguales?");
 
-        System.out.println("\n[Funcionalidad Prolog a implementar]");
+        System.out.println("\nIngrese el costo base: ");
+        double costoBase = scanner.nextDouble();
+        scanner.nextLine();
+
+        if (costoBase < 0) {
+            System.out.println("Costo base no puede ser menor a 0");
+            return;
+        }
+
+        PrologHelper.cargarDatos(this.recital, costoBase);
     }
 
     // ========== OPCIÓN 9 ==========

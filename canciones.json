@@ -1,14 +1,10 @@
 [
   {
     "nombre": "I Know It's Over",
-    "rolesRequeridos": ["VOCALISTA", "GUITARRISTA", "GUITARRISTA"],
+    "rolesRequeridos": ["VOCALISTA", "GUITARRISTA"],
     "asignaciones": [
       {
         "nombreArtista": "Johnny Marr",
-        "rolAsignado": "GUITARRISTA"
-      },
-      {
-        "nombreArtista": "Graham Coxon",
         "rolAsignado": "GUITARRISTA"
       }
     ]
