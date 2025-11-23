@@ -69,6 +69,10 @@ public abstract class Artista {
     public boolean puedeAgregarOtraCancion() {
         return cancioneAsignadas.size() < this.maximoCancionesPorRecital;
     }
+
+    public boolean tieneCancionAsignada(final Cancion cancion){
+        return cancioneAsignadas.containsKey(cancion);
+    }
 /*
     public Boolean agregarBanda(Banda banda) {
         if(this.bandas.contains(banda)) {
