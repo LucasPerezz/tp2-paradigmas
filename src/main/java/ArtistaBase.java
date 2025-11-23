@@ -6,7 +6,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ArtistaBase extends Artista{
 
-    public ArtistaBase(final String nombre,List<Banda> bandas, List<Rol> roles, double costoPorCancion, int maximoCancionesPorRecital) {
+    public ArtistaBase(final String nombre,List<Banda> bandas, ArrayList<Rol> roles, double costoPorCancion, int maximoCancionesPorRecital) {
         super(nombre, bandas, roles, costoPorCancion, maximoCancionesPorRecital);
     }
 

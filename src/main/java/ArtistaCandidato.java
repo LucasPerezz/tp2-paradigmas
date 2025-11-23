@@ -1,6 +1,7 @@
 
 import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -8,8 +9,11 @@ import java.util.stream.Collectors;
 public class ArtistaCandidato extends Artista {
     @Getter
     int costoContratacion;
+
+    private boolean contratado = false;
+
     public ArtistaCandidato(final String nombre, List<Banda> bandas, List<Rol> roles, double costoPorCancion, int maximoCancionesPorRecital) {
-        super(nombre, bandas, roles, costoPorCancion, maximoCancionesPorRecital);
+        super(nombre, bandas, new ArrayList<>(roles), costoPorCancion, maximoCancionesPorRecital);
     }
 
     public boolean llegoAlMaximo(final List<Cancion> cancionesAsignadas) {
@@ -32,6 +36,23 @@ public class ArtistaCandidato extends Artista {
 
 
         return coincidencia ? costoPorCancion * 0.5 : costoPorCancion;
+    }
+
+    public void contratado() {
+        this.contratado = true;
+    }
+
+    public void entrenar(final Rol rol) {
+        if(this.contratado) {
+            throw new RuntimeException("El artista " + nombre + "no puede entrenarse, porque fue contratado");
+        }
+
+        if (roles.stream().anyMatch(r -> r.equals(rol))) {
+            throw new RuntimeException("El artista " + nombre + " ya cumple con el rol " + rol);
+        }
+
+        roles.add(rol);
+        costoPorCancion = costoPorCancion * 1.5;
     }
 
    /* private Double costoContratacion;
@@ -117,14 +138,11 @@ public class ArtistaCandidato extends Artista {
 
         return sb.toString();
     }
-    */
+
     // entrenar
     public Boolean entrenarArtista(Rol nuevoRol) {
-        if(!getRoles().contains(nuevoRol)) {
-            this.getRoles().add(nuevoRol);
-            this.costoContratacion *= 1.5;
-            return true;
-        }
-        return false;
-    }
+        this.rolesEntrenados.add(nuevoRol);
+        this.costoContratacion = costoContratacion * 1.5;
+        return true;
+    }*/
 }

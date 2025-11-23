@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -24,7 +25,7 @@ import lombok.NoArgsConstructor;
 public abstract class Artista {
     protected String nombre;
     protected List<Banda> bandas;
-    protected List<Rol> roles;
+    protected ArrayList<Rol> roles;
     protected double costoPorCancion;
     protected int maximoCancionesPorRecital;
 

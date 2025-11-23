@@ -102,9 +102,11 @@ public class Recital {
             throw new RuntimeException("No hay artista con rol " + rol + " que pueda interpretar la cancion " + cancion.getNombre());
         }
 
+        artistaMasBarato.contratado();
         this.artistas.add(artistaMasBarato);
         relacionArtistaCancion.add(new RelacionArtistaCancion(artistaMasBarato, cancion, rol));
         System.out.println(cancion.getNombre() + ": Se contrató a " + artistaMasBarato.getNombre() + " para desempeñar el rol " + rol.toString());
+
     }
 
     public void contratacionMasiva(final Set<ArtistaCandidato> artistaCandidatos) {
@@ -335,26 +337,26 @@ public class Recital {
     }
 
 
-    /*public RolesFaltantesInfo calcularRolesFaltantesTodas() {
+   /* public RolesFaltantesInfo calcularRolesFaltantesTodas() {
         HashMap<Rol, Integer> rolesNecesarios = new HashMap<>();
         HashMap<Rol, Integer> rolesCubiertos = new HashMap<>();
         HashMap<ArtistaBase, HashSet<Cancion>> cancionesPorArtistaBase = new HashMap<>();
-
+        
         for (Cancion cancion : cancionesLineUp) {
-            HashMap<Rol, Integer> rolesNecesariosCancion = getRolesNecesariosCancion(cancion);
-            HashMap<Rol, Integer> rolesCubiertosCancion = getRolesCubiertosCancion(cancion);
-
+            HashMap<Rol, Integer> rolesNecesariosCancion = cancion.getRolesNecesarios();
+            HashMap<Rol, Integer> rolesCubiertosCancion = cancion.getRolesCubiertos();
+            
             for (Rol rol : rolesNecesariosCancion.keySet()) {
-                rolesNecesarios.put(rol,
-                        rolesNecesarios.getOrDefault(rol, 0) + rolesNecesariosCancion.get(rol));
+                rolesNecesarios.put(rol, 
+                    rolesNecesarios.getOrDefault(rol, 0) + rolesNecesariosCancion.get(rol));
             }
-
+            
             for (Rol rol : rolesCubiertosCancion.keySet()) {
-                rolesCubiertos.put(rol,
-                        rolesCubiertos.getOrDefault(rol, 0) + rolesCubiertosCancion.get(rol));
+                rolesCubiertos.put(rol, 
+                    rolesCubiertos.getOrDefault(rol, 0) + rolesCubiertosCancion.get(rol));
             }
-
-            HashSet<ArtistaBase> artistasBaseCancion = getArtistasBaseAsignados(cancion);
+            
+            HashSet<ArtistaBase> artistasBaseCancion = cancion.getArtistasBaseAsignados();
             for (ArtistaBase artistaBase : artistasBaseCancion) {
                 cancionesPorArtistaBase.putIfAbsent(artistaBase, new HashSet<>());
                 cancionesPorArtistaBase.get(artistaBase).add(cancion);
@@ -362,18 +364,18 @@ public class Recital {
         }
 
         HashMap<Rol, Integer> capacidadBaseDisponible = new HashMap<>();
-
+        
         for (Artista artista : artistas) {
             if (artista instanceof ArtistaBase) {
                 ArtistaBase artistaBase = (ArtistaBase) artista;
-                int cancionesYaAsignadas = cancionesPorArtistaBase.containsKey(artistaBase)
-                        ? cancionesPorArtistaBase.get(artistaBase).size() : 0;
+                int cancionesYaAsignadas = cancionesPorArtistaBase.containsKey(artistaBase) 
+                    ? cancionesPorArtistaBase.get(artistaBase).size() : 0;
                 int cancionesDisponibles = artistaBase.getCancionesMaximas() - cancionesYaAsignadas;
-
+                
                 if (cancionesDisponibles > 0) {
                     for (Rol rol : artistaBase.getRoles()) {
-                        capacidadBaseDisponible.put(rol,
-                                capacidadBaseDisponible.getOrDefault(rol, 0) + cancionesDisponibles);
+                        capacidadBaseDisponible.put(rol, 
+                            capacidadBaseDisponible.getOrDefault(rol, 0) + cancionesDisponibles);
                     }
                 }
             }
@@ -383,18 +385,18 @@ public class Recital {
         int totalNecesarios = 0;
         int totalCubiertos = 0;
         int totalFaltantes = 0;
-
+        
         Rol[] todosLosRoles = Rol.values();
-
+        
         for (Rol rol : todosLosRoles) {
             int necesarios = rolesNecesarios.getOrDefault(rol, 0);
             int cubiertos = rolesCubiertos.getOrDefault(rol, 0);
             int capacidadBase = capacidadBaseDisponible.getOrDefault(rol, 0);
-
+            
             if (necesarios > 0) {
                 totalNecesarios += necesarios;
                 totalCubiertos += cubiertos;
-
+                
                 int rolesSinCubrir = necesarios - cubiertos;
                 int rolesQuePuedeCubrirBase = Math.min(capacidadBase, rolesSinCubrir);
                 int faltantes = Math.max(0, rolesSinCubrir - rolesQuePuedeCubrirBase);
@@ -403,8 +405,8 @@ public class Recital {
             }
         }
 
-        return new RolesFaltantesInfo(rolesNecesarios, rolesCubiertos, rolesFaltantes,
-                totalNecesarios, totalCubiertos, totalFaltantes);
+        return new RolesFaltantesInfo(rolesNecesarios, rolesCubiertos, rolesFaltantes, 
+            totalNecesarios, totalCubiertos, totalFaltantes);
     }*/
 
 
