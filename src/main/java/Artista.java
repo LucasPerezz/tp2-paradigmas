@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -29,19 +30,28 @@ public abstract class Artista {
     protected double costoPorCancion;
     protected int maximoCancionesPorRecital;
 
- /*   public Artista(String nombre, double costoPorCancion) {
-        this.nombre = nombre;
-        this.costoPorCancion = costoPorCancion;
-        this.bandas = new ArrayList<>();
-        this.roles = new ArrayList<>();
-    }
-*/
+    /*   public Artista(String nombre, double costoPorCancion) {
+           this.nombre = nombre;
+           this.costoPorCancion = costoPorCancion;
+           this.bandas = new ArrayList<>();
+           this.roles = new ArrayList<>();
+       }
+   */
     public boolean tieneRol(final Rol rol) {
         return roles.contains(rol);
     }
 
     public abstract boolean llegoAlMaximo(final List<Cancion> cancionesAsignadas);
 
+    @Override
+    public boolean equals(Object o) {
+        Artista artista = (Artista) o;
+        return (this.nombre.equals(artista.nombre) &&
+                this.roles.equals(artista.getRoles()) &&
+                this.bandas.equals(artista.getBandas()) &&
+                this.costoPorCancion == artista.costoPorCancion &&
+                this.maximoCancionesPorRecital == artista.maximoCancionesPorRecital);
+    }
 /*
     public Boolean agregarBanda(Banda banda) {
         if(this.bandas.contains(banda)) {
