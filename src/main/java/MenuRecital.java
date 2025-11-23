@@ -38,6 +38,7 @@ public class MenuRecital {
         System.out.println("║ 6. Listar artistas contratados                         ║");
         System.out.println("║ 7. Listar canciones y su estado                        ║");
         System.out.println("║ 8. Consultas Prolog                                    ║");
+        System.out.println("║ 9. Eliminar artista                                    ║");
         System.out.println("║ 0. Salir                                               ║");
         System.out.println("╚════════════════════════════════════════════════════════╝");
         System.out.print("\nSeleccione una opción: ");
@@ -333,6 +334,55 @@ public class MenuRecital {
     }
 
     // ========== OPCIÓN 9 ==========
+    private void eliminarArtista() {
+        System.out.println("╔════════════════════════════════════════════════════════╗");
+        System.out.println("║               QUITAR ARTISTA DE RECITAL                ║");
+        System.out.println("╚════════════════════════════════════════════════════════╝\n");
+
+        // == Listamos artistas disponibles
+        List<Artista> listaArtistas = this.recital.getArtistas();
+
+        for(int i = 0; i < listaArtistas.size(); i++) {
+                Artista a = listaArtistas.get(i);
+                System.out.println((i + 1) + ". " + a.getNombre());
+            }
+
+        if(listaArtistas.isEmpty()) {
+            System.out.println("No hay artistas disponibles!");
+            return;
+        }
+
+        // == Pedimos artista
+        System.out.print("\nSeleccione el artista: ");
+        int artistaSeleccion;
+
+        do {
+            artistaSeleccion = leerOpcion();
+
+            if(artistaSeleccion <= 0 || artistaSeleccion > listaArtistas.size()) {
+                System.out.println("Seleccione una opcion valida.");
+                System.out.print("\nSeleccione el artista: ");
+            }
+        } while(artistaSeleccion <= 0 ||  artistaSeleccion > listaArtistas.size());
+
+        System.out.println("Artista seleccionado:");
+        Artista artistaSeleccionado = listaArtistas.get(artistaSeleccion - 1);
+        System.out.println(artistaSeleccionado);
+
+        System.out.print("\n¿Estas seguro que queres borrar al artista? (S/N): ");
+        String confirmacion = scanner.nextLine().trim().toUpperCase();
+
+        // == Entrenamiento
+        if (confirmacion.equals("S")) {
+            recital.eliminarArtista(artistaSeleccionado);
+            System.out.println("\nArtista borrado exitosamente.");
+        } else {
+            System.out.println("\nOperacion cancelada.");
+        }
+
+    }
+
+    // ========== OPCIÓN 0 ==========
     private void confirmarSalida() {
         System.out.print("¿Está seguro que desea salir? (S/N): ");
         String confirmacion = scanner.nextLine().trim().toUpperCase();
@@ -382,8 +432,10 @@ public class MenuRecital {
             case 8:
                 consultasProlog();
                 break;
+            case 9:
+                eliminarArtista();
+                break;
 
-                // añadir QUITAR artista ((?. Son 2 puntos más.
             case 0:
                 confirmarSalida();
                 break;
