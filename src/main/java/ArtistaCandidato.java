@@ -1,8 +1,9 @@
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ArtistaCandidato extends Artista {
     public ArtistaCandidato(final String nombre, List<Banda> bandas, List<Rol> roles, double costoPorCancion, int maximoCancionesPorRecital) {
         super(nombre, bandas, roles, costoPorCancion, maximoCancionesPorRecital);
