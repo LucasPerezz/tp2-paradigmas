@@ -25,6 +25,7 @@ public class Recital {
                 if (artista == null) {
                     continue;
                 }
+                cancion.agregarRolCubierto(rol);
                 relacionArtistaCancion.add(new RelacionArtistaCancion(artista, cancion, rol));
             }
         }
@@ -44,14 +45,12 @@ public class Recital {
     public int rolesFaltantes(final Cancion cancion) {
         final List<Artista> artistasDisponibles = artistaPuedenTocarMas();
 
-        final List<Rol> roles = artistasDisponibles.stream()
+        final Set<Rol> roles = artistasDisponibles.stream()
                 .map(Artista::getRoles)
                 .flatMap(List::stream)
-                .toList();
+                .collect(Collectors.toSet());
 
-        return (int) cancion.getRolesRequeridos().stream()
-                .filter(rolRequerido -> !roles.contains(rolRequerido))
-                .count();
+        return cancion.rolesFaltantes(roles).size();
     }
 
     public int rolesFaltantesRecital() {
@@ -111,6 +110,7 @@ public class Recital {
             this.artistas.add(artistaContratado);
         }
 
+        cancion.agregarRolCubierto(rol);
         relacionArtistaCancion.add(new RelacionArtistaCancion(artistaContratado, cancion, rol));
 
     }
