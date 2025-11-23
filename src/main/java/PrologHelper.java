@@ -1,4 +1,4 @@
-//import org.jpl7.*;
+import org.jpl7.*;
 
 import java.util.Map;
 
@@ -8,13 +8,13 @@ public class PrologHelper {
         throw new AssertionError("No se puede instanciar una clase de utilidad");
     }
 
-   /* public static void cargarDatos(Recital recital, double costoMinimo) {
+   public static void cargarDatos(Recital recital, double costoMinimo) {
         for(Artista a :recital.getArtistas()) {
             addArtista(a);
         }
 
         for(Cancion c :recital.getCancionesLineUp()) {
-            addCancion(c);
+            addCancion(c, recital);
         }
 
         agregarFact("costo_parametro", costoMinimo);
@@ -32,7 +32,7 @@ public class PrologHelper {
 
     }
 
-    public static void addCancion(Cancion cancion) {
+    public static void addCancion(Cancion cancion, Recital recital) {
 
         agregarFact("cancion", cancion.getNombre());
 
@@ -40,7 +40,7 @@ public class PrologHelper {
             agregarFact("rol_requerido", cancion.getNombre(), rol.toString().toLowerCase());
         }
 
-        for(Artista a: cancion.getArtistasAsignados()) {
+        for(Artista a: recital.obtenerArtistasAsignados(cancion)) {
             if(a != null) {
                 agregarFact("artista_asignado", cancion.getNombre(),  a.getNombre());
             }
@@ -129,6 +129,6 @@ public class PrologHelper {
         } finally {
             q1.close();
         }
-    }*/
+    }
 
 }
