@@ -4,11 +4,13 @@ public class MenuRecital {
     private Scanner scanner;
     private boolean enCurso;
     private Recital recital;
+    private Set<ArtistaCandidato> artistasCandidatos;
 
-    public MenuRecital(Recital recital) {
+    public MenuRecital(Recital recital, Set<ArtistaCandidato> artistasCandidatos) {
         this.scanner = new Scanner(System.in);
         this.enCurso = true;
         this.recital = recital;
+        this.artistasCandidatos = artistasCandidatos;
     }
 
     public void iniciar() {
@@ -171,7 +173,7 @@ public class MenuRecital {
 
         for (Rol rol : cancion.getRolesFaltantes()) {
             try {
-                recital.contratar(recital.getArtistasCandidatos(), cancion, rol);
+                recital.contratar(artistasCandidatos, cancion, rol);
             }
             catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -188,7 +190,7 @@ public class MenuRecital {
         System.out.println("║      CONTRATAR ARTISTAS PARA TODAS LAS CANCIONES       ║");
         System.out.println("╚════════════════════════════════════════════════════════╝\n");
 
-        recital.contratacionMasiva(recital.getArtistasCandidatos());
+        recital.contratacionMasiva(artistasCandidatos);
 
         System.out.println("Contratacion exitosa");
     }
@@ -295,11 +297,7 @@ public class MenuRecital {
         System.out.println("║                  ARTISTAS CONTRATADOS                  ║");
         System.out.println("╚════════════════════════════════════════════════════════╝\n");
 
-        for(Artista a: recital.getArtistas()) {
-            System.out.println(a);
-        }
-
-        for( Artista a: recital.getArtistasContratados()) {
+        for(Artista a: recital.getArtistas()) { // Ambos base y contratados
             System.out.println(a);
         }
 

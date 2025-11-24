@@ -4,17 +4,18 @@ import org.junit.Test;
 import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Scanner;
 
 public class MenuTest {
     private Cancion cancion;
     private List<ArtistaBase> artistas = new ArrayList<>();
+    private Set<ArtistaCandidato> artistasCandidatos = new HashSet<>();
     private Recital recital;
     private ArtistaBase pepe1;
     private ArtistaBase pepe2;
     private ArtistaBase pepe3;
+    private ArtistaCandidato pepe4;
     MenuRecital menuRecital;
 
 
@@ -25,16 +26,19 @@ public class MenuTest {
         pepe1 = new ArtistaBase("Pepe1", List.of(), new ArrayList<>(List.of(Rol.BAJISTA)),10.0, 3);
         pepe2 = new ArtistaBase("Pepe2", List.of(),  new ArrayList<>(List.of(Rol.VOCALISTA)),5.0, 1);
         pepe3 = new ArtistaBase("Pepe3", List.of(),  new ArrayList<>(List.of(Rol.GUITARRISTA)),10.0, 3);
+        pepe4 = new ArtistaCandidato("Pepe4", List.of(),  new ArrayList<>(List.of(Rol.VOCALISTA)),10.0, 3);
 
         artistas.add(pepe1);
         artistas.add(pepe2);
         artistas.add(pepe3);
+
+        artistasCandidatos.add(pepe4);
         recital = new Recital(artistas, List.of(cancion));
 
         String input = "1\n1\n1\n1\n1\n1\n1\n10.0\n";
         System.setIn(new ByteArrayInputStream(input.getBytes()));
         
-        menuRecital = new MenuRecital(recital);
+        menuRecital = new MenuRecital(recital, artistasCandidatos);
 
     }
 
