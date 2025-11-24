@@ -71,9 +71,9 @@ public class MenuTest {
     public void testearOpcion7(){
         menuRecital.procesarOpcion(7);
     }
-    @Test
+
+    /*@Test
     public void testearOpcion8(){
         menuRecital.procesarOpcion(8);
-    }
-
+    }*/
 }

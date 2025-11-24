@@ -10,7 +10,12 @@ public class ArtistaCandidatoTest {
     private ArtistaCandidato artistaCandidato;
     @Before
     public void setUp() {
-        artistaCandidato = new ArtistaCandidato("pepe", List.of(), (ArrayList<Rol>) List.of(Rol.VOCALISTA, Rol.GUITARRISTA), 10.0, 3);
+
+        ArrayList<Rol> roles = new ArrayList<>();
+        roles.add(Rol.VOCALISTA);
+        roles.add(Rol.GUITARRISTA);
+
+        artistaCandidato = new ArtistaCandidato("pepe", List.of(),roles, 10.0, 3);
     }
 
     @Test

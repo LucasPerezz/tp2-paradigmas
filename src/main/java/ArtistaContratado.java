@@ -48,7 +48,7 @@ public class ArtistaContratado extends Artista {
 
         return String.format(
                 "Nombre: %s, Bandas: %s, Roles: %s, consto contratado por cancion: %s, maximo dispuesto a tocar: %s",
-                this.nombre, bandasString, rolesString, this.costoPorCancion
+                this.nombre, bandasString, rolesString, this.costoPorCancion, this.maximoCancionesPorRecital
         );
     }
 }
