@@ -1,3 +1,5 @@
+// DESHABILITADO - Requiere dependencia org.jpl7 que no está disponible
+/*
 import org.jpl7.*;
 
 import java.util.Map;
@@ -131,4 +133,17 @@ public class PrologHelper {
         }
     }
 
+}
+*/
+
+// Clase vacía para mantener compatibilidad
+public class PrologHelper {
+    private PrologHelper() {
+        throw new AssertionError("No se puede instanciar una clase de utilidad");
+    }
+
+    public static void cargarDatos(Recital recital, double costoMinimo) {
+        // DESHABILITADO - Funcionalidad de Prolog no disponible
+        System.out.println("Funcionalidad de Prolog deshabilitada");
+    }
 }

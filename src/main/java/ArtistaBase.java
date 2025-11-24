@@ -1,7 +1,6 @@
 import lombok.AllArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @AllArgsConstructor
 public class ArtistaBase extends Artista{
@@ -13,7 +12,17 @@ public class ArtistaBase extends Artista{
     public boolean llegoAlMaximo(final List<Cancion> cancionesAsignadas){
         return cancionesAsignadas.size() == maximoCancionesPorRecital;
     }
-  /*  public ArtistaBase(String nombre, double costoPorCancion, int cancionesMaximas)
+
+    @Override
+    public void cargarCancion(final Cancion cancion, final Rol rol) {
+        if (!cancioneAsignadas.containsKey(cancion)) {
+            cancioneAsignadas.put(cancion, new HashSet<>());
+        }
+        cancioneAsignadas.get(cancion).add(rol);
+    }
+
+
+    /*  public ArtistaBase(String nombre, double costoPorCancion, int cancionesMaximas)
     {
         super(nombre, costoPorCancion);
         this.cancionesMaximas = cancionesMaximas;
