@@ -25,6 +25,9 @@ public class Recital {
                 if (artista == null) {
                     continue;
                 }
+                cancion.agregarRolCubierto(rol);
+                artista.cargarCancion(cancion, rol);
+                //TODO: relacion a borrar
                 relacionArtistaCancion.add(new RelacionArtistaCancion(artista, cancion, rol));
             }
         }
@@ -42,46 +45,34 @@ public class Recital {
     }
 
     public int rolesFaltantes(final Cancion cancion) {
-        final List<Artista> artistasDisponibles = artistaPuedenTocarMas();
+        final Set<Artista> artistasDisponibles = artistas.stream()
+                .filter(Artista::puedeAgregarOtraCancion)
+                .collect(Collectors.toSet());
 
-        final List<Rol> roles = artistasDisponibles.stream()
+        final Set<Rol> roles = artistasDisponibles.stream()
                 .map(Artista::getRoles)
                 .flatMap(List::stream)
-                .toList();
+                .collect(Collectors.toSet());
 
-        return (int) cancion.getRolesRequeridos().stream()
-                .filter(rolRequerido -> !roles.contains(rolRequerido))
-                .count();
+        return cancion.rolesFaltantes(roles).size();
     }
 
     public int rolesFaltantesRecital() {
         int rolesFaltantes = 0;
 
         for (Cancion cancion : cancionesLineUp) {
-            List<Rol> rolesCumplidos = rolesCumplidosPorCancion(cancion);
-
-            int cantidadRequeridos = cancion.getRolesRequeridos().size();
-            int cantidadCumplidos = rolesCumplidos.size();
-
-            rolesFaltantes += (cantidadRequeridos - cantidadCumplidos);
+            rolesFaltantes += cancion.getRolesFaltantes().size();
         }
 
         return rolesFaltantes;
     }
 
-    List<Rol> rolesCumplidosPorCancion(final Cancion cancion) {
-        return relacionArtistaCancion.stream()
-                .filter(rel -> rel.getCancion().equals(cancion))
-                .map(RelacionArtistaCancion::getRolQueCumple)
-                .collect(Collectors.toList());
+    public List<Rol> rolesCumplidosPorCancion(final Cancion cancion) {
+        return cancion.getRolesCubiertos().stream().toList();
     }
 
     public void contratar(final Set<ArtistaCandidato> artistas, final Cancion cancion, final Rol rol) {
-        final Set<ArtistaCandidato> artistasPermitdos = artistas.stream()
-                .filter(art -> !art.llegoAlMaximo(cancionesInterpretadasPor(art)))
-                .collect(Collectors.toSet());
-
-        final Set<ArtistaCandidato> artistasConRol = artistasPermitdos.stream()
+        final Set<ArtistaCandidato> artistasConRol = artistas.stream()
                 .filter(artista -> artista.getRoles().contains(rol))
                 .collect(Collectors.toSet());
 
@@ -107,12 +98,14 @@ public class Recital {
         final boolean artistaCargado =  this.artistas.stream()
                 .anyMatch(art -> art.equals(artistaContratado));
 
-        if(!artistaCargado) { //evito cargar repetidos
+        if(!artistaCargado) { //evito cargar repetidos, un candidato, puede serlo para más de una cancion
             this.artistas.add(artistaContratado);
         }
 
+        cancion.agregarRolCubierto(rol);
         relacionArtistaCancion.add(new RelacionArtistaCancion(artistaContratado, cancion, rol));
 
+        cancion.agregarRolCubierto(rol);
     }
 
     public Set<ArtistaContratado> getArtistasContratados() {
@@ -129,11 +122,7 @@ public class Recital {
 
     public void contratacionMasiva(final Set<ArtistaCandidato> artistaCandidatos) {
         for (Cancion cancion : cancionesLineUp) {
-            List<Rol> rolesCumplidos = rolesCumplidosPorCancion(cancion);
-
-            Set<Rol> rolesFaltantes = cancion.getRolesRequeridos().stream()
-                    .filter(rol -> !rolesCumplidos.contains(rol))
-                    .collect(Collectors.toSet());
+            Set<Rol> rolesFaltantes = cancion.getRolesFaltantes();
 
             for (Rol rol : rolesFaltantes) {
                 contratar(artistaCandidatos, cancion, rol);
@@ -152,43 +141,14 @@ public class Recital {
     private Artista obtenerArtistaConRol(final Rol rol, final Cancion cancion) {
         return artistas.stream()
                 .filter(artista -> artista.tieneRol(rol))
-                .filter(artista -> !artista.llegoAlMaximo(cancionesInterpretadasPor(artista)))
-                .filter(artista -> !relacionEntre(artista, cancion))
+                .filter(Artista::puedeAgregarOtraCancion)
+                .filter(artista -> !artista.tieneCancionAsignada(cancion))
                 .findFirst()
                 .orElse(null);
     }
 
-    private List<Artista> artistaPuedenTocarMas() {
-        List<Artista> artistasSobrantes = new ArrayList<>();
-
-        for (Artista artista : artistas) {
-            final List<Cancion> cancionesInterpretadas = cancionesInterpretadasPor(artista);
-            if (!artista.llegoAlMaximo(cancionesInterpretadas)) {
-                artistasSobrantes.add(artista);
-            }
-        }
-
-        return artistasSobrantes;
-    }
-
-    private List<Cancion> cancionesInterpretadasPor(final Artista artista) {
-        return relacionArtistaCancion.stream()
-                .filter(relacion -> relacion.getArtista().equals(artista))
-                .map(RelacionArtistaCancion::getCancion)
-                .toList();
-    }
-
-    private boolean relacionEntre(final Artista artista, final Cancion cancion) {
-        return relacionArtistaCancion.stream()
-                .anyMatch(relacion -> relacion.getArtista().equals(artista) && relacion.getCancion().equals(cancion));
-    }
-
     public boolean tieneRolesCubiertos(final Cancion cancion) {
-        final List<Rol> rolesCumplidos = rolesCumplidosPorCancion(cancion);
-        final List<Rol> rolesRequeridos = cancion.getRolesRequeridos();
-
-        return rolesCumplidos.size() == rolesRequeridos.size() &&
-                rolesCumplidos.containsAll(rolesRequeridos);
+       return cancion.getRolesFaltantes().isEmpty();
     }
 
     public List<Artista> obtenerArtistasAsignados(final Cancion cancion) {
