@@ -134,41 +134,52 @@ public class MenuRecital {
 
     // ========== OPCIÓN 3 ==========
     private void contratarParaCancion() {
-        System.out.println("═══════════════════════════════════════════════════════");
-        System.out.println("  CONTRATAR ARTISTAS PARA CANCIÓN ESPECÍFICA");
-        System.out.println("═══════════════════════════════════════════════════════\n");
+        System.out.println("╔════════════════════════════════════════════════════════╗");
+        System.out.println("║       CONTRATAR ARTISTAS PARA CANCIÓN ESPECÍFICA       ║");
+        System.out.println("╚════════════════════════════════════════════════════════╝\n");
+
 
         System.out.println("Canciones disponibles:");
-        // TODO: Listar canciones sin contratos completos
-        // 1 - Cancion
-        // 2 - Cancion
 
-        System.out.print("\nSeleccione la canción: ");
-        int cancion = leerOpcion();
+        List<Cancion> canciones = this.recital.getCancionesLineUp();
 
-        // TODO: Validar selección
-
-        // TODO: Verificar roles faltantes
-        System.out.println("\nRoles faltantes para la cancion:");
-        System.out.println("- Guitarrista: 1");
-        System.out.println("- Baterista: 1");
-
-        // TODO: Algoritmo de contratación
-        System.out.println("\nContratación propuesta:");
-        System.out.println("\nArtistas a contratar:");
-        System.out.println("- Juan Pérez (Guitarrista) - $3,000");
-        System.out.println("- María García (Baterista) - $3,000");
-        System.out.println("Costo total: $6,000");
-
-        System.out.print("\n¿Confirmar contratación? (S/N): ");
-        String confirmacion = scanner.nextLine().trim().toUpperCase();
-
-        if (confirmacion.equals("S")) {
-            // TODO: Realizar contratación. Metodo de cancion(?
-            System.out.println("\nContratación realizada exitosamente.");
-        } else {
-            System.out.println("\nContratación cancelada.");
+        for (int i = 0; i < canciones.size(); i++) {
+            System.out.println((i+1) + ". " + canciones.get(i).getNombre());
         }
+
+        System.out.print("\nIngrese la canción: ");
+        int cancionOpcion;
+
+        do {
+            cancionOpcion = leerOpcion();
+
+            if(cancionOpcion <= 0 || cancionOpcion > canciones.size()) {
+                System.out.println("Seleccione una opcion valida.");
+                System.out.print("\nSeleccione la cancion: ");
+            }
+        } while(cancionOpcion <= 0 ||  cancionOpcion > canciones.size());
+
+        Cancion cancion = recital.getCancionesLineUp().get(cancionOpcion - 1);
+
+        if(recital.tieneRolesCubiertos(cancion)) {
+            System.out.println("No hay contrataciones restantes para esta canción");
+            return;
+        }
+
+        System.out.println("Antes de contratacion:");
+        System.out.println(recital.imprimirCancion(cancion));
+
+        for (Rol rol : cancion.getRolesFaltantes()) {
+            try {
+                recital.contratar(recital.getArtistasCandidatos(), cancion, rol);
+            }
+            catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        System.out.println("Contratación exitosa\nEstado de canción despues de contracion:");
+        System.out.println(recital.imprimirCancion(cancion));
     }
 
     // ========== OPCIÓN 4 ==========
