@@ -11,7 +11,7 @@ public class Recital {
     private final Set<RelacionArtistaCancion> relacionArtistaCancion;
     // TODO: Calcular descuentos por compartir bandas (estaba en el constructor)
 
-    public Recital(final List<ArtistaBase> artistasBase, final List<Cancion> cancionesLineUp) {
+    public Recital(final List<Artista> artistasBase, final List<Cancion> cancionesLineUp) {
         this.artistas = new ArrayList<>(artistasBase);
         this.cancionesLineUp = cancionesLineUp;
         relacionArtistaCancion = new HashSet<>();
@@ -28,6 +28,17 @@ public class Recital {
                 relacionArtistaCancion.add(new RelacionArtistaCancion(artista, cancion, rol));
             }
         }
+    }
+
+    public Set<ArtistaCandidato> getArtistasCandidatos() {
+        Set<ArtistaCandidato> artistasCandidatos = new HashSet<>();
+        for (Artista artista : artistas) {
+            if(artista instanceof ArtistaCandidato) {
+                artistasCandidatos.add((ArtistaCandidato) artista);
+            }
+        }
+
+        return artistasCandidatos;
     }
 
     public int rolesFaltantes(final Cancion cancion) {
@@ -47,7 +58,7 @@ public class Recital {
         int rolesFaltantes = 0;
 
         for (Cancion cancion : cancionesLineUp) {
-            Set<Rol> rolesCumplidos = rolesCumplidosPorCancion(cancion);
+            List<Rol> rolesCumplidos = rolesCumplidosPorCancion(cancion);
 
             int cantidadRequeridos = cancion.getRolesRequeridos().size();
             int cantidadCumplidos = rolesCumplidos.size();
@@ -58,11 +69,11 @@ public class Recital {
         return rolesFaltantes;
     }
 
-    private Set<Rol> rolesCumplidosPorCancion(final Cancion cancion) {
+    List<Rol> rolesCumplidosPorCancion(final Cancion cancion) {
         return relacionArtistaCancion.stream()
                 .filter(rel -> rel.getCancion().equals(cancion))
                 .map(RelacionArtistaCancion::getRolQueCumple)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
     public void contratar(final Set<ArtistaCandidato> artistas, final Cancion cancion, final Rol rol) {
@@ -91,19 +102,40 @@ public class Recital {
             throw new RuntimeException("No hay artista con rol " + rol + " que pueda interpretar la cancion " + cancion.getNombre());
         }
 
-       this.artistas.add(artistaMasBarato);
-        relacionArtistaCancion.add(new RelacionArtistaCancion(artistaMasBarato, cancion, rol));
+        final ArtistaContratado artistaContratado = ArtistaContratado.contratar(artistaMasBarato, costoMasBarato);
+
+        final boolean artistaCargado =  this.artistas.stream()
+                .anyMatch(art -> art.equals(artistaContratado));
+
+        if(!artistaCargado) { //evito cargar repetidos
+            this.artistas.add(artistaContratado);
+        }
+
+        relacionArtistaCancion.add(new RelacionArtistaCancion(artistaContratado, cancion, rol));
+
+    }
+
+    public Set<ArtistaContratado> getArtistasContratados() {
+       Set<ArtistaContratado> artistasContratados = new HashSet<>();
+
+        for (Artista artista : artistas) {
+            if(artista instanceof ArtistaContratado) {
+                artistasContratados.add((ArtistaContratado) artista);
+            }
+        }
+
+        return  artistasContratados;
     }
 
     public void contratacionMasiva(final Set<ArtistaCandidato> artistaCandidatos) {
-        for(Cancion cancion : cancionesLineUp) {
-            Set<Rol> rolesCumplidos = rolesCumplidosPorCancion(cancion);
+        for (Cancion cancion : cancionesLineUp) {
+            List<Rol> rolesCumplidos = rolesCumplidosPorCancion(cancion);
 
             Set<Rol> rolesFaltantes = cancion.getRolesRequeridos().stream()
                     .filter(rol -> !rolesCumplidos.contains(rol))
                     .collect(Collectors.toSet());
 
-            for(Rol rol : rolesFaltantes) {
+            for (Rol rol : rolesFaltantes) {
                 contratar(artistaCandidatos, cancion, rol);
             }
         }
@@ -149,6 +181,183 @@ public class Recital {
     private boolean relacionEntre(final Artista artista, final Cancion cancion) {
         return relacionArtistaCancion.stream()
                 .anyMatch(relacion -> relacion.getArtista().equals(artista) && relacion.getCancion().equals(cancion));
+    }
+
+    public boolean tieneRolesCubiertos(final Cancion cancion) {
+        final List<Rol> rolesCumplidos = rolesCumplidosPorCancion(cancion);
+        final List<Rol> rolesRequeridos = cancion.getRolesRequeridos();
+
+        return rolesCumplidos.size() == rolesRequeridos.size() &&
+                rolesCumplidos.containsAll(rolesRequeridos);
+    }
+
+    public List<Artista> obtenerArtistasAsignados(final Cancion cancion) {
+        return relacionArtistaCancion.stream()
+                .filter(rel -> rel.getCancion().equals(cancion))
+                .map(RelacionArtistaCancion::getArtista)
+                .distinct()
+                .toList();
+    }
+
+    public List<RelacionArtistaCancion> obtenerAsignacionesPorCancion(final Cancion cancion) {
+        return relacionArtistaCancion.stream()
+                .filter(rel -> rel.getCancion().equals(cancion))
+                .toList();
+    }
+
+    public double calcularCostoRecital() {
+        double costoTotal = 0.0;
+
+        for (Cancion cancion : cancionesLineUp) {
+            List<RelacionArtistaCancion> asignaciones = obtenerAsignacionesPorCancion(cancion);
+
+            for (RelacionArtistaCancion asignacion : asignaciones) {
+                Artista artista = asignacion.getArtista();
+                costoTotal += artista.getCostoPorCancion();
+            }
+        }
+
+        return costoTotal;
+    }
+
+    public String imprimirCancion(Cancion cancion) {
+
+        if (cancion == null || !cancionesLineUp.contains(cancion)) {
+            return "Cancion no incluida en recital";
+        }
+
+        List<String> lineas = new ArrayList<>();
+        List<Rol> rolesRequeridos = cancion.getRolesRequeridos();
+        List<Artista> artistasAsignados = obtenerArtistasAsignados(cancion);
+        ArrayList<RelacionArtistaCancion> asignaciones = new ArrayList<>(obtenerAsignacionesPorCancion(cancion));
+
+        // Título
+        lineas.add("Canción: " + cancion.getNombre());
+
+        // Estado
+        lineas.add("Estado: " + (this.tieneRolesCubiertos(cancion) ? "Cubierta" : "No cubierta"));
+
+        for (Rol rol : rolesRequeridos) {
+            var artistaOpt = asignaciones.stream()
+                    .filter(rel -> rel.getRolQueCumple().equals(rol))
+                    .findFirst()
+                    .map(RelacionArtistaCancion::getArtista);
+
+            if (artistaOpt.isPresent()) {
+                lineas.add(rol.toString() + ": Cubierto por " + artistaOpt.get().getNombre());
+                asignaciones.remove(artistaOpt); // Por Roles duplicados
+            } else {
+                lineas.add(rol.toString() + ": No cubierto");
+            }
+        }
+
+
+        // Costo total
+        double total = 0;
+        for (Artista a : artistasAsignados) {
+            if (a != null)
+                total += a.getCostoPorCancion();
+        }
+        lineas.add("Costo por tocar cancion: $" + total);
+
+        // ----------------------------------------------------
+        //   Calcular ancho máximo
+        // ----------------------------------------------------
+        int max = 54;
+        for (String l : lineas) {
+            if (l.length() > max) max = l.length();
+        }
+
+        int anchoInterior = max + 2; // margen interno
+        StringBuilder sb = new StringBuilder();
+
+        // Borde superior
+        sb.append("┌").append("─".repeat(anchoInterior)).append("┐\n");
+
+        // Contenido
+        for (String l : lineas) {
+            int padding = anchoInterior - l.length();
+            sb.append("│ ").append(l).append(" ".repeat(padding - 1)).append("│\n");
+        }
+
+        // Borde inferior
+        sb.append("└").append("─".repeat(anchoInterior)).append("┘");
+
+        return sb.toString();
+    }
+
+    public HashMap<Rol, Integer> getRolesNecesariosCancion(final Cancion cancion) {
+        HashMap<Rol, Integer> rolesNecesarios = new HashMap<>();
+
+        for (Rol rol : cancion.getRolesRequeridos()) {
+            rolesNecesarios.put(rol, rolesNecesarios.getOrDefault(rol, 0) + 1);
+        }
+
+        return rolesNecesarios;
+    }
+
+    public HashMap<Rol, Integer> getRolesCubiertosCancion(final Cancion cancion) {
+        HashMap<Rol, Integer> rolesCubiertos = new HashMap<>();
+
+        List<RelacionArtistaCancion> asignaciones = obtenerAsignacionesPorCancion(cancion);
+        for (RelacionArtistaCancion asignacion : asignaciones) {
+            Rol rol = asignacion.getRolQueCumple();
+            rolesCubiertos.put(rol, rolesCubiertos.getOrDefault(rol, 0) + 1);
+        }
+
+        return rolesCubiertos;
+    }
+
+    public HashSet<ArtistaBase> getArtistasBaseAsignados(final Cancion cancion) {
+        return obtenerAsignacionesPorCancion(cancion).stream()
+                .map(RelacionArtistaCancion::getArtista)
+                .filter(artista -> artista instanceof ArtistaBase)
+                .map(artista -> (ArtistaBase) artista)
+                .collect(Collectors.toCollection(HashSet::new));
+    }
+
+    public RolesFaltantesInfo obtenerRolesFaltantesRecital() {
+        HashMap<Rol, Integer> rolesNecesarios = new HashMap<>();
+        HashMap<Rol, Integer> rolesCubiertos = new HashMap<>();
+
+        for (Cancion cancion : cancionesLineUp) {
+            HashMap<Rol, Integer> rolesNecesariosCancion = getRolesNecesariosCancion(cancion);
+            HashMap<Rol, Integer> rolesCubiertosCancion = getRolesCubiertosCancion(cancion);
+
+            for (Rol rol : rolesNecesariosCancion.keySet()) {
+                rolesNecesarios.put(rol, rolesNecesarios.getOrDefault(rol, 0) + rolesNecesariosCancion.get(rol));
+            }
+
+            for (Rol rol : rolesCubiertosCancion.keySet()) {
+                rolesCubiertos.put(rol, rolesCubiertos.getOrDefault(rol, 0) + rolesCubiertosCancion.get(rol));
+            }
+        }
+
+        HashMap<Rol, Integer> rolesFaltantes = new HashMap<>();
+        int totalFaltantes = 0;
+
+        for (Rol rol : rolesNecesarios.keySet()) {
+            int necesarios = rolesNecesarios.get(rol);
+            int cubiertos = rolesCubiertos.getOrDefault(rol, 0);
+            int faltantes = necesarios - cubiertos;
+
+            if (faltantes > 0) {
+                rolesFaltantes.put(rol, faltantes);
+                totalFaltantes += faltantes;
+            }
+        }
+
+        int totalNecesarios = rolesNecesarios.values().stream().mapToInt(Integer::intValue).sum();
+        int totalCubiertos = rolesCubiertos.values().stream().mapToInt(Integer::intValue).sum();
+
+        return new RolesFaltantesInfo(rolesNecesarios, rolesCubiertos, rolesFaltantes,
+                totalNecesarios, totalCubiertos, totalFaltantes);
+    }
+
+    public void eliminarArtista(final Artista artista) {
+        artistas.remove(artista);
+
+        relacionArtistaCancion.removeIf(rel -> rel.getArtista().equals(artista));
     }
 
 

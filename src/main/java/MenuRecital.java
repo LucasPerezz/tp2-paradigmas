@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class MenuRecital {
- /*   private Scanner scanner;
+    private Scanner scanner;
     private boolean enCurso;
     private Recital recital;
 
@@ -38,6 +38,7 @@ public class MenuRecital {
         System.out.println("║ 6. Listar artistas contratados                         ║");
         System.out.println("║ 7. Listar canciones y su estado                        ║");
         System.out.println("║ 8. Consultas Prolog                                    ║");
+        System.out.println("║ 9. Eliminar artista                                    ║");
         System.out.println("║ 0. Salir                                               ║");
         System.out.println("╚════════════════════════════════════════════════════════╝");
         System.out.print("\nSeleccione una opción: ");
@@ -68,7 +69,7 @@ public class MenuRecital {
             System.out.println((i+1) + ". " + canciones.get(i).getNombre());
         }
 
-        System.out.print("\nIngrese el nombre de la canción: ");
+        System.out.print("\nIngrese la canción: ");
         int cancionOpcion;
 
         do {
@@ -80,19 +81,33 @@ public class MenuRecital {
             }
         } while(cancionOpcion <= 0 ||  cancionOpcion > canciones.size());
 
-        Cancion cancion = canciones.get(cancionOpcion - 1);
-        System.out.println("\nROLES FALTANTES PARA " + cancion.getNombre() + ": ");
-        cancion.getRolesFaltantes();
+        Cancion cancion = recital.getCancionesLineUp().get(cancionOpcion - 1);
+
+        List<Rol> rolesCubiertos = recital.rolesCumplidosPorCancion(cancion);
+        List<Rol> rolesRequeridos = cancion.getRolesRequeridos();
+
+        System.out.println("Roles requeridos:");
+        for (Rol rol : rolesRequeridos) {
+            String estado = rolesCubiertos.contains(rol) ? "Cubierto" : "No cubierto";
+            System.out.println(rol.toString() + ": " + estado);
+        }
+
+        int faltantes = cancion.getRolesRequeridos().size() - recital.rolesCumplidosPorCancion(cancion).size();
+        if (faltantes > 0) {
+            System.out.println("Faltan " + faltantes + " artistas en el recital para poder cubrir esta cancion");
+        } else {
+            System.out.println("No hace falta contratar artistas para cubrir esta cancion");
+        }
 
     }
 
     // ========== OPCIÓN 2 ==========
     private void consultarRolesFaltantesTodas() {
-        System.out.println("═══════════════════════════════════════════════════════");
-        System.out.println("  ROLES FALTANTES PARA TODAS LAS CANCIONES");
-        System.out.println("═══════════════════════════════════════════════════════\n");
+        System.out.println("╔════════════════════════════════════════════════════════╗");
+        System.out.println("║        ROLES FALTANTES PARA TODAS LAS CANCIONES        ║");
+        System.out.println("╚════════════════════════════════════════════════════════╝\n");
 
-        RolesFaltantesInfo info = this.recital.calcularRolesFaltantesTodas();
+        RolesFaltantesInfo info = this.recital.obtenerRolesFaltantesRecital();
         
         System.out.println("\nRoles totales necesarios:");
         Rol[] todosLosRoles = Rol.values();
@@ -162,42 +177,13 @@ public class MenuRecital {
         System.out.println("  CONTRATAR ARTISTAS PARA TODAS LAS CANCIONES");
         System.out.println("═══════════════════════════════════════════════════════\n");
 
-        // Considerar: descuentos por compartir banda
+        recital.contratacionMasiva(recital.getArtistasCandidatos());
 
-        // TODO: Mostrar estado actual
-        System.out.println("Estado actual:");
-        System.out.println("- Canciones no cubiertas: 5");
-        System.out.println("- Canciones cubiertas: 2");
-        System.out.println("- Roles totales faltantes: 12\n");
-
-        // TODO: Algoritmo de optimización para todas las canciones
-
-        System.out.println("Contrataciones propuestas:");
-
-        // === Nombre de artista ===
-        System.out.println("=== Nombre artista ===");
-        System.out.println("- Cancion 1 (Rol) ");
-
-        System.out.println("\n=== Nombre artista ===");
-        System.out.println("- Cancion 1 (Rol) ");
-
-        System.out.println("\n=== Nombre artista ===");
-        System.out.println("- Cancion 1 (Rol) ");
-        System.out.println("Costo total: $20,000");
-
-        System.out.print("¿Confirmar todas las contrataciones? (S/N): ");
-        String confirmacion = scanner.nextLine().trim().toUpperCase();
-
-        if (confirmacion.equals("S")) {
-            // TODO: Realizar contrataciones, mismo que la opcion 3
-            System.out.println("\nTodas las contrataciones realizadas exitosamente.");
-        } else {
-            System.out.println("\nContrataciones canceladas.");
-        }
+        System.out.println("Contratacion exitosa");
     }
 
     // ========== OPCIÓN 5 ==========
-    private void entrenarArtista() {
+   private void entrenarArtista() {
         System.out.println("╔════════════════════════════════════════════════════════╗");
         System.out.println("║                  ENTRENAR ARTISTA                      ║");
         System.out.println("╚════════════════════════════════════════════════════════╝\n");
@@ -244,7 +230,6 @@ public class MenuRecital {
         // == Listamos roles disponibles
         List<Rol> roles = new ArrayList<>(Arrays.asList(Rol.class.getEnumConstants()));
         roles.removeAll(artistaSeleccionado.getRoles());
-        roles.removeAll(artistaSeleccionado.getRolesEntrenados());
 
         System.out.println("\nRoles disponibles para aprender:");
         for (int i = 0; i<roles.size(); i++) {
@@ -272,7 +257,7 @@ public class MenuRecital {
         System.out.println("Rol seleccionado: " + rolSeleccionado.toString());
 
         // == Aviso de incremento de costo
-        double costoAnterior = artistaSeleccionado.getCostoContratacion();
+        double costoAnterior = artistaSeleccionado.getCostoPorCancion();
         double nuevoCosto = costoAnterior * 1.5;
 
         System.out.println("\nCÁLCULO DE NUEVO COSTO:");
@@ -285,7 +270,7 @@ public class MenuRecital {
 
         // == Entrenamiento
         if (confirmacion.equals("S")) {
-            artistaSeleccionado.entrenarArtista(rolSeleccionado);
+            artistaSeleccionado.entrenar(rolSeleccionado);
             System.out.println("\nEntrenamiento completado exitosamente.");
             System.out.println(artistaSeleccionado.getNombre() + " ahora puede desempeñar el rol " + rolSeleccionado);
         } else {
@@ -316,15 +301,13 @@ public class MenuRecital {
         double costoTotal = 0;
 
         for (Cancion c : this.recital.getCancionesLineUp()) {
-            System.out.println(c);
+            System.out.println(recital.imprimirCancion(c));
 
-            if (c.estaCubierta()) completas++;
-            costoTotal += c.getCostoTotal();
-
+            if (recital.tieneRolesCubiertos(c)) completas++;
         }
 
         System.out.println("Canciones completas: " + completas + "/" + this.recital.getCancionesLineUp().size());
-        System.out.println("Costo total de las canciones: $" + costoTotal);
+        System.out.println("Costo total de las canciones: $" + recital.calcularCostoRecital());
     }
 
     // ========== OPCIÓN 8 ==========
@@ -351,6 +334,55 @@ public class MenuRecital {
     }
 
     // ========== OPCIÓN 9 ==========
+    private void eliminarArtista() {
+        System.out.println("╔════════════════════════════════════════════════════════╗");
+        System.out.println("║               QUITAR ARTISTA DE RECITAL                ║");
+        System.out.println("╚════════════════════════════════════════════════════════╝\n");
+
+        // == Listamos artistas disponibles
+        List<Artista> listaArtistas = this.recital.getArtistas();
+
+        for(int i = 0; i < listaArtistas.size(); i++) {
+                Artista a = listaArtistas.get(i);
+                System.out.println((i + 1) + ". " + a.getNombre());
+            }
+
+        if(listaArtistas.isEmpty()) {
+            System.out.println("No hay artistas disponibles!");
+            return;
+        }
+
+        // == Pedimos artista
+        System.out.print("\nSeleccione el artista: ");
+        int artistaSeleccion;
+
+        do {
+            artistaSeleccion = leerOpcion();
+
+            if(artistaSeleccion <= 0 || artistaSeleccion > listaArtistas.size()) {
+                System.out.println("Seleccione una opcion valida.");
+                System.out.print("\nSeleccione el artista: ");
+            }
+        } while(artistaSeleccion <= 0 ||  artistaSeleccion > listaArtistas.size());
+
+        System.out.println("Artista seleccionado:");
+        Artista artistaSeleccionado = listaArtistas.get(artistaSeleccion - 1);
+        System.out.println(artistaSeleccionado);
+
+        System.out.print("\n¿Estas seguro que queres borrar al artista? (S/N): ");
+        String confirmacion = scanner.nextLine().trim().toUpperCase();
+
+        // == Entrenamiento
+        if (confirmacion.equals("S")) {
+            recital.eliminarArtista(artistaSeleccionado);
+            System.out.println("\nArtista borrado exitosamente.");
+        } else {
+            System.out.println("\nOperacion cancelada.");
+        }
+
+    }
+
+    // ========== OPCIÓN 0 ==========
     private void confirmarSalida() {
         System.out.print("¿Está seguro que desea salir? (S/N): ");
         String confirmacion = scanner.nextLine().trim().toUpperCase();
@@ -367,7 +399,7 @@ public class MenuRecital {
         scanner.nextLine();
     }
 
-    private void procesarOpcion(int opcion) {
+    void procesarOpcion(int opcion) {
         System.out.println(); // Línea en blanco para mejor legibilidad
 
         switch (opcion) {
@@ -381,7 +413,12 @@ public class MenuRecital {
                 contratarParaCancion();
                 break;
             case 4:
-                contratarParaTodasCanciones();
+                try {
+                    contratarParaTodasCanciones();
+                }
+                catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
                 break;
             case 5:
                 entrenarArtista();
@@ -395,8 +432,10 @@ public class MenuRecital {
             case 8:
                 consultasProlog();
                 break;
+            case 9:
+                eliminarArtista();
+                break;
 
-                // añadir QUITAR artista ((?. Son 2 puntos más.
             case 0:
                 confirmarSalida();
                 break;
@@ -407,6 +446,6 @@ public class MenuRecital {
         if (enCurso && opcion != 0) {
             pausar();
         }
-    }*/
+    }
 
 }

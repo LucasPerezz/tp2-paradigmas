@@ -2,6 +2,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -11,7 +12,7 @@ public class ArtistaBase extends Artista{
     public ArtistaBase(
             @JsonProperty("nombre") final String nombre,
             @JsonProperty("bandas") List<Banda> bandas, 
-            @JsonProperty("roles") List<Rol> roles, 
+            @JsonProperty("roles") ArrayList<Rol> roles, 
             @JsonProperty("costoPorCancion") double costoPorCancion, 
             @JsonProperty("cancionesMaximas") int cancionesMaximas) {
         super(nombre, bandas, roles, costoPorCancion, cancionesMaximas);
@@ -24,9 +25,7 @@ public class ArtistaBase extends Artista{
     {
         super(nombre, costoPorCancion);
         this.cancionesMaximas = cancionesMaximas;
-    }
-
-    public ArtistaBase() {}
+    }*/
 
     @Override
     public String toString() {
@@ -44,7 +43,7 @@ public class ArtistaBase extends Artista{
         lineas.add("Bandas: ");
         for (int i = 0; i < getBandas().size(); i++) {
             Banda banda = getBandas().get(i);
-            lineas.add("  " + banda.getNombre());
+            lineas.add("  " + banda.toString());
         }
 
         // Roles
@@ -79,7 +78,7 @@ public class ArtistaBase extends Artista{
     }
 
     public int getCancionesMaximas() {
-        return cancionesMaximas;
-    }*/
+        return maximoCancionesPorRecital;
+    }
 
 }
