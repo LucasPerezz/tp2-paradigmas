@@ -1,12 +1,20 @@
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.NoArgsConstructor;
 
 import java.util.*;
 
-@AllArgsConstructor
+@NoArgsConstructor
 public class ArtistaBase extends Artista{
 
-    public ArtistaBase(final String nombre,List<Banda> bandas, ArrayList<Rol> roles, double costoPorCancion, int maximoCancionesPorRecital) {
-        super(nombre, bandas, roles, costoPorCancion, maximoCancionesPorRecital);
+    @JsonCreator
+    public ArtistaBase(
+            @JsonProperty("nombre") final String nombre,
+            @JsonProperty("bandas") List<Banda> bandas, 
+            @JsonProperty("roles") ArrayList<Rol> roles, 
+            @JsonProperty("costoPorCancion") double costoPorCancion, 
+            @JsonProperty("cancionesMaximas") int cancionesMaximas) {
+        super(nombre, bandas, roles, costoPorCancion, cancionesMaximas);
     }
 
     public boolean llegoAlMaximo(final List<Cancion> cancionesAsignadas){

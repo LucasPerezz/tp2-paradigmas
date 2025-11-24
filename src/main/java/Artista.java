@@ -2,7 +2,6 @@ import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,7 +21,7 @@ import lombok.NoArgsConstructor;
 public abstract class Artista {
     protected String nombre;
     protected List<Banda> bandas;
-    protected ArrayList<Rol> roles;
+    protected List<Rol> roles;
     protected double costoPorCancion;
     protected int maximoCancionesPorRecital;
     protected Map<Cancion, Set<Rol>> cancioneAsignadas;
@@ -55,12 +54,18 @@ public abstract class Artista {
 
     @Override
     public boolean equals(Object o) {
+        if (o == null || !(o instanceof Artista)) return false;
         Artista artista = (Artista) o;
-        return (this.nombre.equals(artista.nombre) &&
-                this.roles.equals(artista.getRoles()) &&
-                this.bandas.equals(artista.getBandas()) &&
-                this.costoPorCancion == artista.costoPorCancion &&
-                this.maximoCancionesPorRecital == artista.maximoCancionesPorRecital);
+
+        return Objects.equals(nombre, artista.nombre) &&
+                Objects.equals(roles, artista.roles) &&
+                Objects.equals(bandas, artista.bandas) &&
+                maximoCancionesPorRecital == artista.maximoCancionesPorRecital;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nombre, roles, bandas, maximoCancionesPorRecital);
     }
 
     public void cargarCancion(final Cancion cancion, final Rol rol) {
@@ -73,23 +78,4 @@ public abstract class Artista {
     public boolean tieneCancionAsignada(final Cancion cancion){
         return cancioneAsignadas.containsKey(cancion);
     }
-/*
-    public Boolean agregarBanda(Banda banda) {
-        if(this.bandas.contains(banda)) {
-            return false;
-        }
-        this.bandas.add(banda);
-        return true;
-    }
-
-    public Boolean agregarRol(Rol rol) {
-        if(this.roles.contains(rol)) {
-            return false;
-        }
-        this.roles.add(rol);
-        return true;
-    }
-    public void setCostoPorCancion(double costoPorCancion) {
-        this.costoPorCancion = costoPorCancion;
-    }*/
 }

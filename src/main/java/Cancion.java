@@ -4,12 +4,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 
-@JsonIgnoreProperties
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Getter
+@Setter
 public class Cancion {
     private String nombre;
     private List<Rol> rolesRequeridos;
