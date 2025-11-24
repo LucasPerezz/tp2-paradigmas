@@ -109,9 +109,9 @@ public class RecitalTest {
     @Test
     public void contratarPorCancionTest() {
         final Recital nuevoRecital = recital;
-        final ArtistaCandidato pedro1 = new ArtistaCandidato("Pedro1", List.of(new Banda("GUNS")), List.of(Rol.BAJISTA),10.0, 3);
-        final ArtistaCandidato pedro2 = new ArtistaCandidato("Pedro2", List.of(new Banda("GUNS")), List.of(Rol.GUITARRISTA),10.0, 3);
-        final ArtistaCandidato pedro3 = new ArtistaCandidato("Pedro3", List.of(new Banda("SODA")), List.of(Rol.GUITARRISTA),10.0, 3);
+        final ArtistaCandidato pedro1 = new ArtistaCandidato("Pedro1", List.of(new Banda("GUNS")), (ArrayList<Rol>) List.of(Rol.BAJISTA),10.0, 3);
+        final ArtistaCandidato pedro2 = new ArtistaCandidato("Pedro2", List.of(new Banda("GUNS")), (ArrayList<Rol>) List.of(Rol.GUITARRISTA),10.0, 3);
+        final ArtistaCandidato pedro3 = new ArtistaCandidato("Pedro3", List.of(new Banda("SODA")), (ArrayList<Rol>) List.of(Rol.GUITARRISTA),10.0, 3);
 
         final ArtistaContratado pedro2Contratado = ArtistaContratado.contratar(pedro2, 5.0);
 
@@ -130,12 +130,12 @@ public class RecitalTest {
         final Recital nuevoRecital = new Recital(List.of(pepe1, pepe2), List.of(cancion, cancion2));
         nuevoRecital.asignacionAutomaticaDeCanciones();
 
-        final ArtistaCandidato pedro1 = new ArtistaCandidato("Pedro1", List.of(new Banda("GUNS")), List.of(Rol.BAJISTA, Rol.PIANISTA),10.0, 3);
-        final ArtistaCandidato pedro2 = new ArtistaCandidato("Pedro2", List.of(new Banda("GUNS")), List.of(Rol.GUITARRISTA),10.0, 3);
-        final ArtistaCandidato pedro3 = new ArtistaCandidato("Pedro3", List.of(new Banda("SODA")), List.of(Rol.GUITARRISTA),10.0, 3);
-        final ArtistaCandidato pedro4 = new ArtistaCandidato("Pedro4", List.of(new Banda("SODA")), List.of(Rol.BATERISTA),6.0, 3);
-        final ArtistaCandidato pedro5 = new ArtistaCandidato("Pedro5", List.of(new Banda("GUNS")), List.of(Rol.BATERISTA),6.0, 2);
-        final ArtistaCandidato pedro6 = new ArtistaCandidato("Pedro6", List.of(new Banda("SODA")), List.of(Rol.VOCALISTA),6.0, 2);
+        final ArtistaCandidato pedro1 = new ArtistaCandidato("Pedro1", List.of(new Banda("GUNS")), (ArrayList<Rol>) List.of(Rol.BAJISTA, Rol.PIANISTA),10.0, 3);
+        final ArtistaCandidato pedro2 = new ArtistaCandidato("Pedro2", List.of(new Banda("GUNS")), (ArrayList<Rol>) List.of(Rol.GUITARRISTA),10.0, 3);
+        final ArtistaCandidato pedro3 = new ArtistaCandidato("Pedro3", List.of(new Banda("SODA")), (ArrayList<Rol>) List.of(Rol.GUITARRISTA),10.0, 3);
+        final ArtistaCandidato pedro4 = new ArtistaCandidato("Pedro4", List.of(new Banda("SODA")), (ArrayList<Rol>) List.of(Rol.BATERISTA),6.0, 3);
+        final ArtistaCandidato pedro5 = new ArtistaCandidato("Pedro5", List.of(new Banda("GUNS")), (ArrayList<Rol>) List.of(Rol.BATERISTA),6.0, 2);
+        final ArtistaCandidato pedro6 = new ArtistaCandidato("Pedro6", List.of(new Banda("SODA")), (ArrayList<Rol>) List.of(Rol.VOCALISTA),6.0, 2);
 
         final Set<ArtistaCandidato> artistas = Set.of(pedro1, pedro2, pedro3, pedro4, pedro5, pedro6);
         
@@ -166,9 +166,9 @@ public class RecitalTest {
 
     @Test
     public void listadoDeContratados() {
-        final ArtistaCandidato pedro1 = new ArtistaCandidato("Pedro1", List.of(), List.of(Rol.BAJISTA), 10.0, 3);
-        final ArtistaCandidato pedro2 = new ArtistaCandidato("Pedro2", List.of(), List.of(Rol.GUITARRISTA), 10.0, 3);
-        final ArtistaCandidato pedro3 = new ArtistaCandidato("Pedro3", List.of(), List.of(Rol.GUITARRISTA), 10.0, 3);
+        final ArtistaCandidato pedro1 = new ArtistaCandidato("Pedro1", List.of(), (ArrayList<Rol>) List.of(Rol.BAJISTA), 10.0, 3);
+        final ArtistaCandidato pedro2 = new ArtistaCandidato("Pedro2", List.of(), (ArrayList<Rol>) List.of(Rol.GUITARRISTA), 10.0, 3);
+        final ArtistaCandidato pedro3 = new ArtistaCandidato("Pedro3", List.of(), (ArrayList<Rol>) List.of(Rol.GUITARRISTA), 10.0, 3);
 
         final ArtistaContratado pedro2Contratado = ArtistaContratado.contratar(pedro2, 5.0);
 

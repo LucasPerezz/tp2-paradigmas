@@ -1,4 +1,7 @@
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,10 +9,18 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@NoArgsConstructor
 public class ArtistaCandidato extends Artista {
 
-    public ArtistaCandidato(final String nombre, List<Banda> bandas, List<Rol> roles, double costoPorCancion, int maximoCancionesPorRecital) {
-        super(nombre, bandas, new ArrayList<>(roles), costoPorCancion, maximoCancionesPorRecital);
+    @JsonCreator
+    public ArtistaCandidato(
+            @JsonProperty("nombre") final String nombre,
+            @JsonProperty("bandas") List<Banda> bandas,
+            @JsonProperty("roles") ArrayList<Rol> roles,
+            @JsonProperty("costoPorCancion") double costoPorCancion,
+            @JsonProperty(value = "maximoCancionesPorRecital", required = false) Integer maximoCancionesPorRecital) {
+        super(nombre, bandas, new ArrayList<>(roles), costoPorCancion, 
+              maximoCancionesPorRecital != null ? maximoCancionesPorRecital : 3);
     }
 
     public boolean llegoAlMaximo(final List<Cancion> cancionesAsignadas) {

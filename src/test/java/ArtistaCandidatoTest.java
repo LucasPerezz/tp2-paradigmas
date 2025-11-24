@@ -1,6 +1,7 @@
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -9,7 +10,7 @@ public class ArtistaCandidatoTest {
     private ArtistaCandidato artistaCandidato;
     @Before
     public void setUp() {
-        artistaCandidato = new ArtistaCandidato("pepe", List.of(), List.of(Rol.VOCALISTA, Rol.GUITARRISTA), 10.0, 3);
+        artistaCandidato = new ArtistaCandidato("pepe", List.of(), (ArrayList<Rol>) List.of(Rol.VOCALISTA, Rol.GUITARRISTA), 10.0, 3);
     }
 
     @Test
