@@ -36,19 +36,57 @@ public class ArtistaContratado extends Artista {
         cancioneAsignadas.get(cancion).add(rol);
     }
 
+    public int getCancionesMaximas() {
+        return maximoCancionesPorRecital;
+    }
+
     @Override
     public String toString() {
-        final String bandasString = bandas.stream()
-                .map(Banda::toString)
-                .collect(Collectors.joining(", "));
 
-        final String rolesString = roles.stream()
-                .map(Rol::toString)
-                .collect(Collectors.joining(", "));
+        List<String> lineas = new ArrayList<>();
 
-        return String.format(
-                "Nombre: %s, Bandas: %s, Roles: %s, consto contratado por cancion: %s, maximo dispuesto a tocar: %s",
-                this.nombre, bandasString, rolesString, this.costoPorCancion, this.maximoCancionesPorRecital
-        );
+        // Título
+        lineas.add("Artista contratado: " + this.getNombre());
+
+        // Estado
+        lineas.add("Costo por canción: " + this.getCostoPorCancion());
+        lineas.add("Canciones maximas: " + this.getCancionesMaximas());
+
+        // Bandas
+        lineas.add("Bandas: ");
+        for (int i = 0; i < getBandas().size(); i++) {
+            Banda banda = getBandas().get(i);
+            lineas.add("  " + banda.getNombre());
+        }
+
+        // Roles
+        lineas.add("Roles: ");
+        for (int i = 0; i < getRoles().size(); i++) {
+            Rol rol = getRoles().get(i);
+            lineas.add("  " + rol);
+        }
+
+        //   Calcular ancho máximo
+        int max = 54;
+        for (String l : lineas) {
+            if (l.length() > max) max = l.length();
+        }
+
+        int anchoInterior = max + 2; // margen interno
+        StringBuilder sb = new StringBuilder();
+
+        // Borde superior
+        sb.append("┌").append("─".repeat(anchoInterior)).append("┐\n");
+
+        // Contenido
+        for (String l : lineas) {
+            int padding = anchoInterior - l.length();
+            sb.append("│ ").append(l).append(" ".repeat(padding - 1)).append("│\n");
+        }
+
+        // Borde inferior
+        sb.append("└").append("─".repeat(anchoInterior)).append("┘");
+
+        return sb.toString();
     }
 }

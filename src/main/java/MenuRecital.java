@@ -295,10 +295,12 @@ public class MenuRecital {
         System.out.println("║                  ARTISTAS CONTRATADOS                  ║");
         System.out.println("╚════════════════════════════════════════════════════════╝\n");
 
-        for( Artista a: recital.getArtistas()) {
-            if(a instanceof ArtistaBase) {
-                System.out.println(a);
-            }
+        for(Artista a: recital.getArtistas()) {
+            System.out.println(a);
+        }
+
+        for( Artista a: recital.getArtistasContratados()) {
+            System.out.println(a);
         }
 
     }
