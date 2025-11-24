@@ -2,6 +2,7 @@
   {
     "nombre": "I Know It's Over",
     "rolesRequeridos": ["VOCALISTA", "GUITARRISTA"],
+    "rolesCubiertos": [],
     "asignaciones": [
       {
         "nombreArtista": "Johnny Marr",
@@ -12,6 +13,7 @@
   {
     "nombre": "Parklife",
     "rolesRequeridos": ["VOCALISTA", "GUITARRISTA"],
+    "rolesCubiertos": [],
     "asignaciones": [
       {
         "nombreArtista": "Damon Albarn",
@@ -26,6 +28,7 @@
   {
     "nombre": "Don't Look Back In Anger",
     "rolesRequeridos": ["VOCALISTA", "GUITARRISTA"],
+    "rolesCubiertos": [],
     "asignaciones": [
       {
         "nombreArtista": "Liam Gallagher",

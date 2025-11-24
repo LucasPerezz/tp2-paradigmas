@@ -52,7 +52,7 @@ public class ArtistaBase extends Artista{
         lineas.add("Bandas: ");
         for (int i = 0; i < getBandas().size(); i++) {
             Banda banda = getBandas().get(i);
-            lineas.add("  " + banda.toString());
+            lineas.add("  " + banda.getNombre());
         }
 
         // Roles

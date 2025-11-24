@@ -1,5 +1,7 @@
 import java.util.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import lombok.Getter;
@@ -16,6 +18,7 @@ import lombok.NoArgsConstructor;
         @JsonSubTypes.Type(value = ArtistaCandidato.class, name = "CANDIDATO")
 })
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @NoArgsConstructor
 @Getter
 public abstract class Artista {
@@ -24,6 +27,8 @@ public abstract class Artista {
     protected List<Rol> roles;
     protected double costoPorCancion;
     protected int maximoCancionesPorRecital;
+
+    @JsonIgnore
     protected Map<Cancion, Set<Rol>> cancioneAsignadas;
 
     public Artista(final String nombre,
