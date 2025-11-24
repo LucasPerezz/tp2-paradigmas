@@ -1,96 +1,117 @@
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
 
 public class LectorJsonTest {
-    private final LectorJson lector = new LectorJson();
+
+    private LectorJson lector;
+
+    @Before
+    public void setUp() {
+        lector = new LectorJson();
+    }
 
     @Test
     public void cargarCancionesTest() throws IOException {
         lector.cargarDatos();
         List<Cancion> canciones = lector.getCanciones();
-        
+
         assertNotNull(canciones);
         assertFalse(canciones.isEmpty());
-        
+
         System.out.println("Canciones cargadas: " + canciones.size());
         for (Cancion cancion : canciones) {
             assertNotNull(cancion.getNombre());
             assertNotNull(cancion.getRolesRequeridos());
             assertFalse(cancion.getRolesRequeridos().isEmpty());
-            System.out.println("- " + cancion.getNombre() + 
+            System.out.println("- " + cancion.getNombre() +
                     " (Roles: " + cancion.getRolesRequeridos().size() + ")");
         }
     }
 
-  /*  @Test
-    public void cargarArtistasTest() throws IOException {
-       /* File jsonFile = new File("artistas.json");
+    @Test
+    public void getArtistasBase() throws IOException {
+        lector.cargarDatos();
 
+        List<ArtistaBase> bases = lector.getArtistasBases();
+        
+        // Recrear los 3 ArtistasBase del archivo artistas.json
+        ArtistaBase johnnyMarr = new ArtistaBase(
+            "Johnny Marr",
+            List.of(new Banda("The Smiths")),
+            new ArrayList<>(List.of(Rol.GUITARRISTA)),
+            1000.00,
+            10
+        );
+        
+        ArtistaBase grahamCoxon = new ArtistaBase(
+            "Graham Coxon",
+            List.of(new Banda("Blur")),
+            new ArrayList<>(List.of(Rol.GUITARRISTA)),
+            900.00,
+            3
+        );
+        
+        ArtistaBase noelGallagher = new ArtistaBase(
+            "Noel Gallagher",
+            List.of(new Banda("Oasis")),
+            new ArrayList<>(List.of(Rol.GUITARRISTA)),
+            1500.00,
+            7
+        );
 
-        List<Artista> artistas = lector//LectorJson.cargarArtistas(jsonFile);
-        
-        assertNotNull(artistas);
-        assertFalse(artistas.isEmpty());
-        
-        System.out.println("Artistas cargados: " + artistas.size());
-        for (Artista artista : artistas) {
-            assertNotNull(artista.getNombre());
-            assertNotNull(artista.getRoles());
-            System.out.println("- " + artista.getNombre() + 
-                    " (Tipo: " + artista.getClass().getSimpleName() + 
-                    ", Roles: " + artista.getRoles().size() + ")");
-        }
+        assertNotNull(bases);
+        assertFalse(bases.isEmpty());
+        assertEquals(3, bases.size());
+        assertTrue(bases.contains(johnnyMarr));
+        assertTrue(bases.contains(grahamCoxon));
+        assertTrue(bases.contains(noelGallagher));
+
     }
 
     @Test
-    public void cargarArtistasBaseTest() throws IOException {
-        File jsonFile = new File("artistas.json");
+    public void getArtistasCandidatos() throws IOException {
+        lector.cargarDatos();
+
+        List<ArtistaCandidato> candidatos = lector.getArtistasCandidatos();
         
-        try {
-            List<ArtistaBase> artistasBase = LectorJson.cargarArtistasBase(jsonFile);
-            
-            assertNotNull(artistasBase);
-            System.out.println("Artistas Base cargados: " + artistasBase.size());
-            for (ArtistaBase artista : artistasBase) {
-                assertNotNull(artista.getNombre());
-                assertTrue(artista instanceof ArtistaBase);
-                System.out.println("- " + artista.getNombre());
-            }
-        } catch (Exception e) {
-            System.out.println("Nota: cargarArtistasBase falló porque el JSON contiene tipos mixtos: " + e.getMessage());
-        }
-    }
-
-    @Test
-    public void cargarArtistasCandidatoTest() throws IOException {
-        File jsonFile = new File("artistas.json");
+        // Recrear los 3 ArtistasCandidato del archivo artistas.json
+        ArtistaCandidato morrisey = new ArtistaCandidato(
+            "Morrisey",
+            List.of(new Banda("The Smiths")),
+            new ArrayList<>(List.of(Rol.VOCALISTA)),
+            1000.00,
+            3
+        );
         
+        ArtistaCandidato damonAlbarn = new ArtistaCandidato(
+            "Damon Albarn",
+            List.of(new Banda("Blur")),
+            new ArrayList<>(List.of(Rol.VOCALISTA)),
+            750.00,
+            3
+        );
+        
+        ArtistaCandidato liamGallagher = new ArtistaCandidato(
+            "Liam Gallagher",
+            List.of(new Banda("Oasis")),
+            new ArrayList<>(List.of(Rol.VOCALISTA)),
+            1500.00,
+            3
+        );
 
-        try {
-            List<ArtistaCandidato> artistasCandidato = LectorJson.cargarArtistasCandidato(jsonFile);
-            
-            assertNotNull(artistasCandidato);
-            System.out.println("Artistas Candidato cargados: " + artistasCandidato.size());
-            for (ArtistaCandidato artista : artistasCandidato) {
-                assertNotNull(artista.getNombre());
-                assertTrue(artista instanceof ArtistaCandidato);
-                System.out.println("- " + artista.getNombre());
-            }
-        } catch (Exception e) {
-            System.out.println("Nota: cargarArtistasCandidato falló porque el JSON contiene tipos mixtos: " + e.getMessage());
-        }
+        assertNotNull(candidatos);
+        assertFalse(candidatos.isEmpty());
+        assertEquals(3, candidatos.size());
+        assertTrue(candidatos.contains(morrisey));
+        assertTrue(candidatos.contains(damonAlbarn));
+        assertTrue(candidatos.contains(liamGallagher));
+
     }
-
-    @Test(expected = IOException.class)
-    public void cargarCancionesArchivoInexistenteTest() throws IOException {
-        File jsonFile = new File("archivo_inexistente.json");
-        LectorJson.cargarCanciones(jsonFile);
-    }*/
 }
 
