@@ -184,9 +184,9 @@ public class MenuRecital {
 
     // ========== OPCIÓN 4 ==========
     private void contratarParaTodasCanciones() {
-        System.out.println("═══════════════════════════════════════════════════════");
-        System.out.println("  CONTRATAR ARTISTAS PARA TODAS LAS CANCIONES");
-        System.out.println("═══════════════════════════════════════════════════════\n");
+        System.out.println("╔════════════════════════════════════════════════════════╗");
+        System.out.println("║      CONTRATAR ARTISTAS PARA TODAS LAS CANCIONES       ║");
+        System.out.println("╚════════════════════════════════════════════════════════╝\n");
 
         recital.contratacionMasiva(recital.getArtistasCandidatos());
 
