@@ -11,7 +11,7 @@ public class Recital {
     private final Set<RelacionArtistaCancion> relacionArtistaCancion;
     // TODO: Calcular descuentos por compartir bandas (estaba en el constructor)
 
-    public Recital(final List<Artista> artistasBase, final List<Cancion> cancionesLineUp) {
+    public Recital(final List<ArtistaBase> artistasBase, final List<Cancion> cancionesLineUp) {
         this.artistas = new ArrayList<>(artistasBase);
         this.cancionesLineUp = cancionesLineUp;
         relacionArtistaCancion = new HashSet<>();
