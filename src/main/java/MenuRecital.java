@@ -96,9 +96,9 @@ public class MenuRecital {
 
         int faltantes = cancion.getRolesRequeridos().size() - recital.rolesCumplidosPorCancion(cancion).size();
         if (faltantes > 0) {
-            System.out.println("Faltan " + faltantes + " artistas en el recital para poder cubrir esta cancion");
+            System.out.println("Faltan " + faltantes + " roles para poder cubrir esta cancion");
         } else {
-            System.out.println("No hace falta contratar artistas para cubrir esta cancion");
+            System.out.println("No hacen falta roles para cubrir esta cancion");
         }
 
     }
