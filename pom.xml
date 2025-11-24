@@ -25,6 +25,11 @@
             <version>4.13.1</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>jpl</groupId>
+            <artifactId>jpl</artifactId>
+            <version>7.4.0</version>
+        </dependency>
     </dependencies>
     <properties>
         <maven.compiler.source>23</maven.compiler.source>

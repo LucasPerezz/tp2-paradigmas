@@ -31,6 +31,9 @@ public class MenuTest {
         artistas.add(pepe3);
         recital = new Recital(artistas, List.of(cancion));
 
+        String input = "1\n1\n1\n1\n1\n1\n1\n10.0\n";
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
+        
         menuRecital = new MenuRecital(recital);
 
     }
