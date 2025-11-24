@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class MenuTest {
     private Cancion cancion;
-    private List<Artista> artistas = new ArrayList<>();
+    private List<ArtistaBase> artistas = new ArrayList<>();
     private Recital recital;
     private ArtistaBase pepe1;
     private ArtistaBase pepe2;

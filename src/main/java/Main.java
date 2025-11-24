@@ -4,25 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         System.out.println("TP PARADIGMAS");
 
         // == Recital
         List<Cancion> canciones = null;
-        List<Artista> artistas = null;
-        try {
-            canciones = LectorJson.cargarCanciones(new File("canciones.json"));
-            artistas = LectorJson.cargarArtistas(new File("artistas.json"));
+        List<ArtistaBase> artistasBases = null;
 
-            Recital recital = new Recital(artistas, canciones);
-            recital.asignacionAutomaticaDeCanciones();
+        LectorJson lectorJson = new LectorJson();
+        lectorJson.cargarDatos();
+         canciones = lectorJson.getCanciones();
+         artistasBases =  lectorJson.getArtistasBases();
 
-            MenuRecital menu = new MenuRecital(recital);
-            menu.iniciar();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        Recital recital = new Recital(artistasBases, canciones);
+        recital.asignacionAutomaticaDeCanciones();
+
+        MenuRecital menu = new MenuRecital(recital);
+        menu.iniciar();
 
 
     }
