@@ -105,7 +105,7 @@ public class Recital {
         cancion.agregarRolCubierto(rol);
         relacionArtistaCancion.add(new RelacionArtistaCancion(artistaContratado, cancion, rol));
 
-        cancion.agregarRolCubierto(rol);
+        //cancion.agregarRolCubierto(rol);
     }
 
     public Set<ArtistaContratado> getArtistasContratados() {
@@ -317,7 +317,17 @@ public class Recital {
     public void eliminarArtista(final Artista artista) {
         artistas.remove(artista);
 
-        relacionArtistaCancion.removeIf(rel -> rel.getArtista().equals(artista));
+        List<RelacionArtistaCancion> relacionesAEliminar = relacionArtistaCancion.stream()
+                .filter(rel -> rel.getArtista().equals(artista))
+                .toList();
+
+        for (RelacionArtistaCancion relacion : relacionesAEliminar) {
+            Cancion cancion = relacion.getCancion();
+            Rol rol = relacion.getRolQueCumple();
+
+            cancion.getRolesCubiertos().remove(rol);
+            relacionArtistaCancion.remove(relacion);
+        }
     }
 
 
