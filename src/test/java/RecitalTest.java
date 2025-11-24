@@ -17,10 +17,10 @@ public class RecitalTest {
     public void setUp() {
         cancion = new Cancion("Crimen", List.of(Rol.VOCALISTA, Rol.GUITARRISTA, Rol.PIANISTA));
 
-        pepe1 = new ArtistaBase("Pepe1", List.of(), (ArrayList<Rol>) List.of(Rol.BAJISTA),10.0, 3);
-        pepe2 = new ArtistaBase("Pepe2", List.of(new Banda("GUNS")), (ArrayList<Rol>) List.of(Rol.VOCALISTA),5.0, 1);
-        pepe3 = new ArtistaBase("Pepe3", List.of(), (ArrayList<Rol>) List.of(Rol.GUITARRISTA),10.0, 3);
-        
+        pepe1 = new ArtistaBase("Pepe1", List.of(), new ArrayList<>(List.of(Rol.BAJISTA)), 10.0, 3);
+        pepe2 = new ArtistaBase("Pepe2", List.of(new Banda("GUNS")), new ArrayList<>(List.of(Rol.VOCALISTA)), 5.0, 1);
+        pepe3 = new ArtistaBase("Pepe3", List.of(), new ArrayList<>(List.of(Rol.GUITARRISTA)), 10.0, 3);
+//List.of(Rol.VOCALISTA, Rol.GUITARRISTA, Rol.BATERISTA, Rol.BAJISTA));
         artistas.add(pepe1);
         artistas.add(pepe2);
         artistas.add(pepe3);
@@ -109,9 +109,9 @@ public class RecitalTest {
     @Test
     public void contratarPorCancionTest() {
         final Recital nuevoRecital = recital;
-        final ArtistaCandidato pedro1 = new ArtistaCandidato("Pedro1", List.of(new Banda("GUNS")), (ArrayList<Rol>) List.of(Rol.BAJISTA),10.0, 3);
-        final ArtistaCandidato pedro2 = new ArtistaCandidato("Pedro2", List.of(new Banda("GUNS")), (ArrayList<Rol>) List.of(Rol.GUITARRISTA),10.0, 3);
-        final ArtistaCandidato pedro3 = new ArtistaCandidato("Pedro3", List.of(new Banda("SODA")), (ArrayList<Rol>) List.of(Rol.GUITARRISTA),10.0, 3);
+        final ArtistaCandidato pedro1 = new ArtistaCandidato("Pedro1", List.of(new Banda("GUNS")), new ArrayList<>(List.of(Rol.BAJISTA)),10.0, 3);
+        final ArtistaCandidato pedro2 = new ArtistaCandidato("Pedro2", List.of(new Banda("GUNS")), new ArrayList<>(List.of(Rol.GUITARRISTA)),10.0, 3);
+        final ArtistaCandidato pedro3 = new ArtistaCandidato("Pedro3", List.of(new Banda("SODA")), new ArrayList<>(List.of(Rol.GUITARRISTA)),10.0, 3);
 
         final ArtistaContratado pedro2Contratado = ArtistaContratado.contratar(pedro2, 5.0);
 
