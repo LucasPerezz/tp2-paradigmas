@@ -23,7 +23,7 @@ public class MenuTest {
         cancion = new Cancion("Crimen", List.of(Rol.VOCALISTA, Rol.GUITARRISTA, Rol.PIANISTA, Rol.GUITARRISTA));
 
         pepe1 = new ArtistaBase("Pepe1", List.of(), new ArrayList<>(List.of(Rol.BAJISTA)),10.0, 3);
-        pepe2 = new ArtistaBase("Pepe2", List.of(Banda.GUNS),  new ArrayList<>(List.of(Rol.VOCALISTA)),5.0, 1);
+        pepe2 = new ArtistaBase("Pepe2", List.of(),  new ArrayList<>(List.of(Rol.VOCALISTA)),5.0, 1);
         pepe3 = new ArtistaBase("Pepe3", List.of(),  new ArrayList<>(List.of(Rol.GUITARRISTA)),10.0, 3);
 
         artistas.add(pepe1);

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @EqualsAndHashCode
 public class Banda {
+    public static final Object GUNS = null;
     private String nombre;
 
     @JsonCreator

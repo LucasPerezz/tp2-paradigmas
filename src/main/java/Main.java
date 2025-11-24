@@ -36,7 +36,7 @@ public class Main {
         cancion = new Cancion("Crimen", List.of(Rol.VOCALISTA, Rol.GUITARRISTA, Rol.PIANISTA));
 
         pepe1 = new ArtistaBase("Pepe1", List.of(), new ArrayList<>(List.of(Rol.PIANISTA)),10.0, 3);
-        pepe2 = new ArtistaBase("Pepe2", List.of(Banda.GUNS), new ArrayList<>(List.of(Rol.VOCALISTA)),5.0, 1);
+        pepe2 = new ArtistaBase("Pepe2", List.of(), new ArrayList<>(List.of(Rol.VOCALISTA)),5.0, 1);
         pepe3 = new ArtistaCandidato("Pepe3", List.of(), new ArrayList<>(List.of(Rol.GUITARRISTA)),10.0, 3);
         ArtistaCandidato pepe4 = new ArtistaCandidato("Pepe4", List.of(), new ArrayList<>(List.of(Rol.GUITARRISTA)),10.0, 3);
         ArtistaCandidato pepe5 = new ArtistaCandidato("Pepe5", List.of(), new ArrayList<>(List.of(Rol.VOCALISTA)),10.0, 3);

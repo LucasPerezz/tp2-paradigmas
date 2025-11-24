@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 public abstract class Artista {
     protected String nombre;
     protected List<Banda> bandas;
-    protected ArrayList<Rol> roles;
+    protected List<Rol> roles;
     protected double costoPorCancion;
     protected int maximoCancionesPorRecital;
 
