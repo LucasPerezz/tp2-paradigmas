@@ -211,9 +211,9 @@ public class MenuRecital {
         // == Listamos artistas disponibles
         List<ArtistaCandidato> listaArtistas = new ArrayList<>();
         int cantidad = 1;
-        for(Artista a : this.recital.getArtistas()){
-            if(a instanceof ArtistaCandidato) {
-                listaArtistas.add((ArtistaCandidato) a);
+        for(ArtistaCandidato a : this.artistasCandidatos){
+            if(recital.getArtistasContratados().stream().noneMatch(artista -> artista.equals(a))){
+                listaArtistas.add(a);
                 System.out.println(cantidad + ". " + a.getNombre());
                 cantidad++;
             }

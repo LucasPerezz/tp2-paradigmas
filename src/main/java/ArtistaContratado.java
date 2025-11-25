@@ -1,7 +1,4 @@
-import lombok.NoArgsConstructor;
-
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class ArtistaContratado extends Artista {
 
@@ -12,10 +9,6 @@ public class ArtistaContratado extends Artista {
     @Override
     public boolean llegoAlMaximo(final List<Cancion> cancionesAsignadas) {
         return cancionesAsignadas.size() == maximoCancionesPorRecital;
-    }
-
-    public double calcularCostoDeContratacion(final List<Cancion> cancionesAsignadas) {
-        return cancionesAsignadas.size() * costoPorCancion;
     }
 
     public static ArtistaContratado contratar(final ArtistaCandidato artistaCandidato, final double costoPorCancionAcordado) {

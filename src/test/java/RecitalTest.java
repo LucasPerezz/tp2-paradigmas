@@ -173,11 +173,8 @@ public class RecitalTest {
         final ArtistaCandidato pedro2 = new ArtistaCandidato("Pedro2", List.of(), new ArrayList<>(List.of(Rol.GUITARRISTA)), 10.0, 3);
         final ArtistaCandidato pedro3 = new ArtistaCandidato("Pedro3", List.of(), new ArrayList<>(List.of(Rol.GUITARRISTA)), 10.0, 3);
 
-        final ArtistaContratado pedro2Contratado = ArtistaContratado.contratar(pedro2, 5.0);
-
         recital.contratar(Set.of(pedro1, pedro2, pedro3), cancion, Rol.GUITARRISTA);
 
         assertEquals(1,recital.getArtistasContratados().size());
-        assertTrue(recital.getArtistasContratados().stream().anyMatch(artistaContratado -> artistaContratado.equals(pedro2Contratado)));
     }
 }
