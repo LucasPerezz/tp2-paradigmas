@@ -29,13 +29,6 @@ public class ArtistaBase extends Artista{
         cancioneAsignadas.get(cancion).add(rol);
     }
 
-
-    /*  public ArtistaBase(String nombre, double costoPorCancion, int cancionesMaximas)
-    {
-        super(nombre, costoPorCancion);
-        this.cancionesMaximas = cancionesMaximas;
-    }*/
-
     @Override
     public String toString() {
 

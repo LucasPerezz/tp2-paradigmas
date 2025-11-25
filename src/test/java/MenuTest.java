@@ -3,7 +3,6 @@ import org.junit.Test;
 
 import java.awt.*;
 import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.util.*;
 import java.util.List;
 
@@ -75,9 +74,4 @@ public class MenuTest {
     public void testearOpcion7(){
         menuRecital.procesarOpcion(7);
     }
-
-    /*@Test
-    public void testearOpcion8(){
-        menuRecital.procesarOpcion(8);
-    }*/
 }
